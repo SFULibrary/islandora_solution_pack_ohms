@@ -1,0 +1,8 @@
+core = 7.x
+description = "Islandora Oral History Metadata Syncronizer (OHMS) Viewer"
+name = "Islandora OHMS Viewer"
+dependencies[] = islandora
+dependencies[] = islandora_ohms
+package = Islandora Solution Packs
+version = 7.x-1.6
+configure = admin/islandora/solution_pack_config/ohms_viewer

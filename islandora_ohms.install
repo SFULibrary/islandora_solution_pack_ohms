@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for this module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function islandora_ohms_install() {
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  islandora_install_solution_pack('islandora_ohms');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function islandora_ohms_uninstall() {
+  module_load_include('inc', 'islandora', 'includes/solution_packs');
+  variable_del('islandora_ohms_link_xml');
+  islandora_install_solution_pack('islandora_ohms', 'uninstall');
+}

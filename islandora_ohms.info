@@ -1,0 +1,7 @@
+core = 7.x
+description = "Islandora solution pack to integrate Oral History Metadata Syncronizer (OHMS)"
+name = "Islandora OHMS"
+dependencies[] = islandora
+package = Islandora Solution Packs
+version = 7.x-1.6
+configure = admin/islandora/solution_pack_config/ohms

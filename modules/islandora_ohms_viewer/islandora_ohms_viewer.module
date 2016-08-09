@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Handles creation and display of OHMS objects.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_ohms_viewer_menu() {
+  return array(
+    'admin/islandora/solution_pack_config/ohms_viewer' => array(
+      'title' => 'OHMS Viewer',
+      'description' => 'Configure the OHMS viewer.',
+      'page callback' => 'drupal_get_form',
+      'access arguments' => array('administer site configuration'),
+      'page arguments' => array('islandora_ohms_viewer_admin'),
+      'file' => 'includes/admin.form.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
+  );
+}

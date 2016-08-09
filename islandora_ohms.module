@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Handles creation and display of OHMS objects.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function islandora_ohms_menu() {
+  return array(
+    'admin/islandora/solution_pack_config/ohms' => array(
+      'title' => 'OHMS Solution Pack',
+      'description' => 'Configure OHMS.',
+      'page callback' => 'drupal_get_form',
+      'access arguments' => array('administer site configuration'),
+      'page arguments' => array('islandora_ohms_admin'),
+      'file' => 'includes/admin.form.inc',
+      'type' => MENU_NORMAL_ITEM,
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_required_objects().
+ */
+function islandora_ohms_islandora_required_objects(IslandoraTuque $connection) {
+  $module_path = drupal_get_path('module', 'islandora_ohms');
+  // Islandora OHMS Content Model.
+  $ohms_content_model = $connection->repository->constructObject('islandora:sp_ohms');
+  $ohms_content_model->owner = 'fedoraAdmin';
+  $ohms_content_model->label = 'Islandora OHMS Content Model';
+  $ohms_content_model->models = 'fedora-system:ContentModel-3.0';
+  // DS-COMPOSITE-MODEL Datastream.
+  $datastream = $ohms_content_model->constructDatastream('DS-COMPOSITE-MODEL', 'X');
+  $datastream->label = 'DS-COMPOSITE-MODEL';
+  $datastream->mimetype = 'application/xml';
+  $datastream->setContentFromFile("$module_path/xml/islandora_ohms_ds_composite_model.xml", FALSE);
+  $ohms_content_model->ingestDatastream($datastream);
+  // OHMS Collection.
+  $ohms_collection = $connection->repository->constructObject('islandora:sp_ohms_collection');
+  $ohms_collection->owner = 'fedoraAdmin';
+  $ohms_collection->label = 'OHMS Collection';
+  $ohms_collection->models = 'islandora:collectionCModel';
+  $top_level_collection = variable_get('islandora_repository_pid', 'islandora:root');
+  $ohms_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', $top_level_collection);
+  // Collection Policy Datastream.
+  $datastream = $ohms_collection->constructDatastream('COLLECTION_POLICY', 'X');
+  $datastream->label = 'Collection policy';
+  $datastream->mimetype = 'application/xml';
+  $datastream->setContentFromFile("$module_path/xml/islandora_ohms_collection_policy.xml", FALSE);
+  $ohms_collection->ingestDatastream($datastream);
+  // TN Datastream.
+  $datastream = $ohms_collection->constructDatastream('TN', 'M');
+  $datastream->label = 'Thumbnail';
+  $datastream->mimetype = 'image/png';
+  $datastream->setContentFromFile("$module_path/images/speaker.png", FALSE);
+  $ohms_collection->ingestDatastream($datastream);
+  return array(
+    'islandora_ohms' => array(
+      'title' => 'Islandora OHMS',
+      'objects' => array(
+        $ohms_content_model,
+        $ohms_collection,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_xml_form_builder_forms().
+ */
+function islandora_ohms_islandora_xml_form_builder_forms() {
+  $module_path = drupal_get_path('module', 'islandora_ohms');
+  return array(
+    'Islandora Simple XML Object MODS form' => array(
+      'form_file' => "$module_path/xml/islandora_ohms_form_mods.xml",
+    ),
+  );
+}
+
+/**
+ * Implements hook_islandora_xml_form_builder_form_associations().
+ */
+function islandora_ohms_islandora_xml_form_builder_form_associations() {
+  return array(
+    'islandora_ohms_mods_form' => array(
+      'content_model' => 'islandora:sp_ohms',
+      'form_name' => 'Islandora Simple XML Object MODS form',
+      'dsid' => 'MODS',
+      'title_field' => array(
+        'titleInfo', 'title',
+      ),
+      'transform' => 'mods_to_dc.xsl',
+      'self_transform' => 'cleanup_mods.xsl',
+      'template' => FALSE,
+    ),
+  );
+}
