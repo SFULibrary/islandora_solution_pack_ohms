@@ -17,14 +17,11 @@
  *   The Drupal form definition.
  */
 function islandora_ohms_admin(array $form, array&$form_state) {
-  $form = array(
-    'link_xml_source' => array(
-      '#type' => 'checkbox',
-      '#title' => 'Link to XML',
-      '#description' => 'Let visitors download the XML source files by clicking a link.',
-      '#default_value' => variable_get('islandora_ohms_link_xml', FALSE),
-
-    ),
+  $form['ohms_viewer_link_xml'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Link to the OHMS XML',
+    '#description' => 'Link to the XML transcript produced by OHMS.',
+    '#default_value' => variable_get('islandora_ohms_viewer_link_xml', FALSE),
   );
   return system_settings_form($form);
 }

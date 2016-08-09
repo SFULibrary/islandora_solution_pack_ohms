@@ -11,6 +11,7 @@
 function islandora_ohms_install() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   islandora_install_solution_pack('islandora_ohms');
+  variable_set('islandora_ohms_viewer_link_xml', FALSE);
 }
 
 /**
@@ -18,6 +19,6 @@ function islandora_ohms_install() {
  */
 function islandora_ohms_uninstall() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
-  variable_del('islandora_ohms_link_xml');
   islandora_install_solution_pack('islandora_ohms', 'uninstall');
+  variable_set('islandora_ohms_viewer_link_xml', FALSE);
 }
