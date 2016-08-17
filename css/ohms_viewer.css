@@ -1,5 +1,5 @@
 a.graylink {
-    color: #bbbbbb;
+    color: white;
 }
 
 .linenum {
@@ -34,13 +34,23 @@ a.graylink {
     text-decoration: none;
 }
 
-#headerimg {
+#ohms-headerimg {
     float: left;
     width: 77px;
     padding-left: 30px;
 }
 
-p {
+#ohms-header h1,
+#ohms-headervid h1,
+#ohms-header h2,
+#ohms-headervid h2 {
+	text-align: center;
+	color: white;
+	font-size:80% !important;
+}
+
+
+#ohms-main p {
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 10px;
@@ -52,23 +62,27 @@ p {
     margin-right: 50px;
 }
 
-#transcript-panel p.first-p, #transcript-panel-alt p.first-p {
+#transcript-panel p.first-p, 
+#transcript-panel-alt p.first-p {
     margin-top: 0px;
     margin-left: 50px;
     margin-right: 50px;
 }
 
-#transcript-panel p.line-p, #transcript-panel-alt p.line-p {
+#transcript-panel p.line-p, 
+#transcript-panel-alt p.line-p {
     margin-left: 50px;
     margin-right: 50px;
 }
 
-#transcript-panel .speaker, #transcript-panel-alt .speaker {
+#transcript-panel .speaker, 
+#transcript-panel-alt .speaker {
     font-weight: bold;
     display: inline;
 }
 
-#transcript-panel a, #transcript-panel-alt a {
+#transcript-panel a, 
+#transcript-panel-alt a {
     color: #000000;
 }
 
@@ -76,16 +90,19 @@ p {
     color: #0000ff !important;
 }
 
-#index-panel .speaker, #index-panel-alt .speaker {
+#index-panel .speaker, 
+#index-panel-alt .speaker {
     font-weight: bold;
     display: inline;
 }
 
-#index-panel a, #index-panel-alt a {
+#index-panel a, 
+#index-panel-alt a {
     color: #000000;
 }
 
-#index-panel .jumpLink, #index-panel-alt .jumpLink {
+#index-panel .jumpLink, 
+#index-panel-alt .jumpLink {
     position: absolute;
     left: 50px;
     font-size: 10px;
@@ -93,7 +110,8 @@ p {
     text-decoration: none;
 }
 
-#index-panel p.first-p, #index-panel-alt p.first-p {
+#index-panel p.first-p, 
+#index-panel-alt p.first-p {
     margin-top: 0px;
 }
 
@@ -311,10 +329,6 @@ p {
     padding-bottom: 2px;
 }
 
-legend {
-    font: 80%/1 sans-serif;
-}
-
 .error-msg {
     background-color: #ffffcc;
     padding-top: 2px;
@@ -386,254 +400,123 @@ div.point {
     width: 99%;
 }
 
-/***************************
-****************************
-These are the styles that
-control the viewer's
-Responsive Web Design
-****************************
-***************************/
-
-
-
 .centered {
-  margin: auto;
-  width: 602px;
+	margin: auto;
+	width: 602px;
 }
 
 #youtubePlayer {
 }
 
 #kaltura_player_embed {
-  width: 500px;
-  height: 279px;
-  overflow: hidden;
-  margin-left:auto;
-  margin-right:auto;
-  }
-
-#header {
-  width: 82%;
-  height: 200px;
-  margin: 0 auto;
-  border-bottom: 5px solid #337ab7;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  background: #3c3c3c;
-  padding-top: 10px;
+	width: 500px;
+	height: 279px;
+	overflow: hidden;
+	margin-left:auto;
+	margin-right:auto;
 }
-#headervid {
-  height: auto;
-  min-height: 215px;
-  margin: 0 auto;
-  border-bottom: 5px solid #337ab7;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  background: #3c3c3c;
-  padding-top: 10px;
-  display: inline-block;
-  padding-bottom: 12px;
+
+#ohms-header {
+	width: 82%;
+	height: 200px;
+	margin: 0 auto;
+	border-bottom: 5px solid #337ab7;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+	background: #3c3c3c;
+	padding-top: 10px;
+}
+
+#ohms-headervid {
+	width: 82%;
+	height: auto;
+	min-height: 215px;
+	margin: 0 auto;
+	border-bottom: 5px solid #337ab7;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+	background: #3c3c3c;
+	padding-top: 10px;
+	display: inline-block;
+	padding-bottom: 12px;
 }
 
 #audio-panel {
-  width: 100%;
-  height: 100%;
-  /*padding-top: 10px;*/
-  padding-bottom: 10px;
-  text-align: center;
-  margin: 0px;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 15px;
-  background-color: #3c3c3c;
+	width: 100%;
+	height: 100%;
+	/*padding-top: 10px;*/
+	padding-bottom: 10px;
+	text-align: center;
+	margin: 0px;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 15px;
+	background-color: #3c3c3c;
 }
 
 #holder-panel {
-  width: 325px;
-  height: 550px;
-  position: relative;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin: auto;
-  padding-left: 80px;
-  padding-right: 20px;
-  background: #ffffff;
-  text-align: left;
+	width: 325px;
+	height: 550px;
+	position: relative;
+	float: left;
+	overflow: auto;
+	outline: 0;
+	margin: auto;
+	padding-left: 80px;
+	padding-right: 20px;
+	background: #ffffff;
+	text-align: left;
 }
+
 
 .center {
     width: 100% !important;
 }
 
-h2 {
-  font-size: 12px;
-  padding: 0 0 8px;
-  text-align: center;
-  color: #f5f5f5;
-  font-weight: normal;
-  border-bottom: 0px solid #3c3c3c;
-}
-
-#main {
-  margin: auto;
-  border: 1px solid #c2c2c2;
-  border-width: 0 1px;
-  background: #ffffff;
-  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
-#main-panels {
-  margin: 0px;
-  width: 100%;
+#ohms-main {
+	width: 82%;
+	height: 550px;
+	margin: auto;
+	border: 1px solid #c2c2c2;
+	border-width: 0 1px;
+	background: #ffffff;
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 #content-panel {
-  float: left;
-  width: 60%;
-  margin-right: 7%;
+	position: absolute;
+	width: 510px;	
+    height: 548px;
+	overflow: auto;
+	border: 1px solid #dcdcdc;
+	margin: auto;
+	background: #ffffff;
+	text-align: left;
+	box-sizing: border-box;
 }
 
-#secondaryMetaData {
-}
-
-#transcript-panel, #transcript-panel-alt {
-  width: 50%;
-  height: 548px;
-  border: 1px solid #dcdcdc;
-  position: absolute;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin-left: 20px;
-  background: #ffffff;
-  text-align: left;
-}
-
-#index-panel, #index-panel-alt {
-  display: none;
-  width: 45%;
-  height: 548px;
-  margin-top: 10px;
-  border: 1px solid #dcdcdc;
-  position: absolute;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin: auto;
-  padding-left: 5%;
-  padding-right: 2%;
-  background: #ffffff;
-  text-align: left;
+#transcript-panel {
+	display: none;
 }
 
 #searchbox-panel {
-  width: 100%;
-  height: 550px;
-  float: left;
-  background: #ffffff;
-  max-width:28%;
+	padding-top: 10px;
+	height: 550px;
+	position: absolute;
+	left: 620px;
 }
 
 #search-results {
-  overflow-y: auto;
+	overflow-y: auto;
     height: 65%;
-  width: 100%;
+	width: 100%;
 }
 
-#search-toggle, #language-toggle {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-fieldset {
-  position: relative;
-  display: table-cell;
-  margin: 0 auto;
-}
-
-input {
-    max-width: 180px;
-    width: 80%;
-}
-
-#transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
-  position: absolute;
-  left: 1px;
-  font-size: 10px;
-  color: #0000ff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1000px) {
-    #content-panel {
-        width: 55%;
-    }
-    #index-panel {
-        width: 50%;
-    }
-    #search-toggle {
-        width: 100%;
-    }
-    #searchbox-panel {
-        margin-left: 8%;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    #header {
-        padding: 0 1% 0 1%;
-        width: 95%;
-    }
-    #main {
-        padding: 0 1% 0 1%;
-        width: 95%;
-        height: 820px !important;
-    }
-    #content-panel {
-        width: 95%;
-        margin-right: 1%;
-        float: none;
-        top: 500px;
-        height: 1px;
-    }
-    #index-panel {
-        padding-left: 1%;
-        padding-right: 1%;
-        width: 90%;
-        top:465px;
-        height: 575px !important;
-    }
-    #transcript-panel {
-        padding-left: 5%;
-        padding-right: 1%;
-        top: 230px;
-        width: 95%;
-        float: none;
-    }
-    #searchbox-panel {
-        width: 90%;
-        margin-left: 2%;
-        height: 250px !important;
-        float: left;
-    }
-    #search-results {
-        height: 100px;
-        border: 1px solid #dcdcdc;
-    }
-    h1 {
-        font-size: 20px;
-    }
-    input {
-        max-width: 500px;
-    }
-}
-
-@media only screen and (min-width: 320px) and (max-width: 480px) {
-    #transcript-panel {
-        padding-left: 10%;
-        width: 90%;
-    }
+.jumpLink {
+	position: absolute;
+	left: 1px;
+	font-size: 10px;
+	color: #0000ff;
+	text-decoration: none;
+	font-weight: bold;
 }
