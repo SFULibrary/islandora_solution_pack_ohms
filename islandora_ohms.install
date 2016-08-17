@@ -12,6 +12,13 @@ function islandora_ohms_install() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   islandora_install_solution_pack('islandora_ohms');
   variable_set('islandora_ohms_viewer_link_xml', FALSE);
+  variable_set('islandora_ohms_tmpdir', sys_get_temp_dir());
+  variable_set('islandora_ohms_players', 'other,brightcove,kaltura,youtube');
+  variable_set('islandora_ohms_timezone', date_default_timezone(false));
+  variable_set('islandora_ohms_collection', '');
+  variable_set('islandora_ohms_contactemail', '');
+  variable_set('islandora_ohms_contactlink', '');
+  variable_set('islandora_ohms_copyright', '');
 }
 
 /**
@@ -20,5 +27,12 @@ function islandora_ohms_install() {
 function islandora_ohms_uninstall() {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
   islandora_install_solution_pack('islandora_ohms', 'uninstall');
-  variable_set('islandora_ohms_viewer_link_xml', FALSE);
+  variable_del('islandora_ohms_viewer_link_xml');
+  variable_del('islandora_ohms_tmpdir');
+  variable_del('islandora_ohms_players');
+  variable_del('islandora_ohms_timezone');
+  variable_del('islandora_ohms_collection');
+  variable_del('islandora_ohms_contactemail');
+  variable_del('islandora_ohms_contactlink');
+  variable_del('islandora_ohms_copyright');
 }
