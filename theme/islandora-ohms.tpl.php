@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * This is the template file for the object page for ohms file
@@ -8,8 +7,10 @@
  */
 ?>
 <script type="text/javascript">
-var cachefile = 'http://techbc.vbox:8000/islandora/object/islandora%3A2/datastream/OBJ/view';
-var playerName = 'other';  
+	var cachefile = 'http://techbc.vbox:8000/islandora/object/islandora%3A2/datastream/OBJ/view';
+	var playerName = 'other';
 </script>
 
-<?php print $islandora_content; ?>
+<div id='ohms_body'>
+	<?php print $islandora_content; ?>
+</div>

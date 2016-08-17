@@ -54,12 +54,10 @@ function islandora_ohms_player($object) {
 
 function islandora_ohms_assets($playerName) {
     $path = drupal_get_path('module', 'islandora_ohms');
-    
+    drupal_add_css($path . '/css/ohms_viewer.css');    
     drupal_add_css($path . "skin/jplayer.blue.monday.css");
 
     $cssPath = $path . '/lib/ohms-viewer/css';
-    drupal_add_css($cssPath . '/viewer.css');
-    
     drupal_add_css($cssPath . "jquery-ui.toggleSwitch.css");
     drupal_add_css($cssPath . "jquery-ui-1.8.16.custom.css");
     drupal_add_css($cssPath . "font-awesome.css");
