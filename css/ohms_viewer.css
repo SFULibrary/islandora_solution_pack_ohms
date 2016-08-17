@@ -1,30 +1,5 @@
-body {
-    background: url("../imgs/bg-1.png") repeat-x top #ffffff;
-    font-family: Arial, Helvetica, Sans-serif;
-    font-size: 10pt;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-img {
-    border: 0;
-}
-
-a {
-    color: #0070b3;
-}
-
 a.graylink {
     color: #bbbbbb;
-}
-
-h1 {
-    margin: 0 0 12px;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    color: white;
 }
 
 .linenum {
@@ -59,23 +34,6 @@ h1 {
     text-decoration: none;
 }
 
-#footer div {
-    color: #f5f5f5;
-}
-
-#footer-metadata {
-    text-align: left;
-    padding-left: 10px;
-    padding-right: 10px;
-    float: left;
-}
-
-#footer-copyright {
-    text-align: right;
-    padding-right: 10px;
-    padding-top: 10px;
-}
-
 #headerimg {
     float: left;
     width: 77px;
@@ -86,46 +44,6 @@ p {
     margin-left: 50px;
     margin-right: 50px;
     margin-top: 10px;
-}
-
-#footer-logo {
-    text-align: right;
-    padding-top: 30px;
-}
-
-#footer h3 {
-    margin: 0 0 6px;
-    font-size: 12px;
-    font-weight: normal;
-    color: #b5b5b5;
-}
-
-#footer address {
-    font-style: normal;
-}
-
-#footer address span {
-    display: block;
-}
-
-#footer a {
-    color: #f5f5f5;
-}
-
-#footer a:hover {
-    color: #ffffff;
-}
-
-#footer small {
-    clear: right;
-    float: right;
-    font: bold 10px/12px Arial, Helvetica, Sans-serif;
-    color: #f5f5f5;
-    text-align: right;
-}
-
-#footer small span {
-    display: block;
 }
 
 #line_0 {
@@ -504,7 +422,6 @@ Responsive Web Design
   padding-top: 10px;
 }
 #headervid {
-  width: 82%;
   height: auto;
   min-height: 215px;
   margin: 0 auto;
@@ -543,22 +460,8 @@ Responsive Web Design
   text-align: left;
 }
 
-
 .center {
     width: 100% !important;
-}
-
-
-
-
-#footer {
-  width: 82%;
-  height: auto;
-  margin: 0 auto;
-  background: #3c3c3c;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  border-top: 5px solid #337ab7;
 }
 
 h2 {
@@ -571,8 +474,6 @@ h2 {
 }
 
 #main {
-  width: 82%;
-  height: 550px;
   margin: auto;
   border: 1px solid #c2c2c2;
   border-width: 0 1px;
@@ -683,10 +584,6 @@ input {
 
 @media only screen and (max-width: 768px) {
     #header {
-        padding: 0 1% 0 1%;
-        width: 95%;
-    }
-    #footer {
         padding: 0 1% 0 1%;
         width: 95%;
     }
