@@ -25,8 +25,11 @@ function islandora_ohms_drush_command() {
 			'recursive' => array(
 				'description' => 'Scan subdirectories',
 			),
-			'stylesheet' => array(
-				'description' => 'Path to XSLT',
+			'mods-stylesheet' => array(
+				'description' => 'Path to MODS XSLT',
+			),
+			'dc-stylesheet' => array(
+				'description' => 'Path to MODS XSLT',
 			),
 			'toc-separator' => array(
 				'description' => 'String to use as table of contents item separator',
@@ -76,59 +79,54 @@ function islandora_ohms_drush_command() {
  * @return Iterator|SplFileInfo[]
  */
 function get_iterator($target, $recursive) {
+	$filter = function(SplFileInfo $item) {
+		if ($item->getExtension() !== 'xml') {
+			return false;
+		}
+		return !preg_match('/\.(DC|MODS)\.xml$/', $item->getFilename());
+	};
+
 	if ($recursive) {
 		$dir = new RecursiveDirectoryIterator($target);
 		$iter = new RecursiveIteratorIterator($dir);
-		$rex = new RegexIterator($iter, '/(?<!\.MODS)\.xml$/', RegexIterator::MATCH);
-		return $rex;
+		$filter = new CallbackFilterIterator($iter, $filter);
+		return $filter;
 	}
+	
 	$dir = new DirectoryIterator($target);
-	$rex = new RegexIterator($dir, '/(?<!\.MODS)\.xml$/', RegexIterator::MATCH);
+	$rex = new CallbackFilterIterator($dir, $filter);
 	return $rex;
 }
 
-function get_xsltproc($stylesheet, $opts) {
-	$dom = new DOMDocument();
-	if (!$dom->load($stylesheet)) {
-		$m = "";
-		foreach (libxml_get_errors() as $e) {
-			$m .= "{$e->file}:{$e->line}:{$e->column} {$e->message}\n";
-		}
-		throw new Exception($m);
+function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
+	$modsFile = preg_replace('/(?<!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
+	if (file_exists($modsFile) && !$force) {
+		drupal_set_message("Skipping {$modsFile}.");
+		return;
 	}
-	$xsl = new XSLTProcessor();
-	$xsl->importStylesheet($dom);
-	foreach ($opts as $name => $value) {
-		$xsl->setParameter(null, $name, $value);
-	}
-	return $xsl;
+
+	$mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
+	file_put_contents($modsFile, $mods->saveXML());
 }
 
-function apply_xsltproc($xsl, $target) {
-	$dom = new DOMDocument();
-	if (!$dom->load($target)) {
-		$m = "";
-		foreach (libxml_get_errors() as $e) {
-			$m .= "{$e->file}:{$e->line}:{$e->column} {$e->message}\n";
-		}
-		throw new Exception($m);
+function generate_dc(SplFileInfo $item, XSLTProcessor $xsl, $force) {
+	$modsFile = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
+	if (file_exists($modsFile) && !$force) {
+		drupal_set_message("Skipping {$modsFile}.");
+		return;
 	}
-	$result = $xsl->transformToDoc($dom);
-	if ($result === false) {
-		$m = "";
-		foreach (libxml_get_errors() as $e) {
-			$m .= "{$e->file}:{$e->line}:{$e->column} {$e->message}\n";
-		}
-		throw new Exception($m);
-	}
-	return $result;
+
+	$mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
+	file_put_contents($modsFile, $mods->saveXML());
 }
 
 function drush_islandora_ohms_generate_mods($target) {
-	$defaultXsl = $path = dirname(__FILE__) . '/xsl/ohms2mods.xsl';
+	module_load_include('inc', 'islandora_ohms', 'includes/utilities');
 
 	$recursive = drush_get_option('recursive', false);
-	$stylesheet = drush_get_option('stylesheet', $defaultXsl);
+	$modsXslFile = drush_get_option('mods-stylesheet', dirname(__FILE__) . '/xsl/ohms2mods.xsl');
+	$dcXslFile = drush_get_option('dc-stylesheet', dirname(__FILE__) . '/xsl/ohms2dc.xsl');
+
 	$force = drush_get_option('force', false);
 	$separator = drush_get_option('toc-separator', ' -- ');
 
@@ -137,32 +135,24 @@ function drush_islandora_ohms_generate_mods($target) {
 	}
 
 	$iterator = get_iterator($target, $recursive);
-	libxml_use_internal_errors(true);
 
-	try {
-		$xslt_proc = get_xsltproc($stylesheet, array(
-			'toc-separator' => $separator
-		));
-	} catch (Exception $e) {
-		$m = "Cannot load stylesheet {$stylesheet}:\n {$e->getMessage()}";
-		return drush_set_error($m);
-	}
+	$modsXsl = islandora_ohms_get_stylesheet($modsXslFile, array(
+		'toc-separator' => $separator
+	));
+
+	$dcXsl = islandora_ohms_get_stylesheet($dcXslFile, array(
+		'toc-separator' => $separator
+	));
+
 
 	foreach ($iterator as $item) {
 		$name = $item->getFilename();
 		if ($name[0] === '.') {
 			continue;
 		}
-		// $item is an SplFileInfo object
-		drupal_set_message($item->getPathName());
-		$modsFile = preg_replace('/(?!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
-		if (file_exists($modsFile) && !$force) {
-			drupal_set_message("Skipping {$modsFile}.");
-			continue;
-		}
-
-		$mods = apply_xsltproc($xslt_proc, $item->getPathname());
-		file_put_contents($modsFile, $mods->saveXML());
+		drupal_set_message($item->getPathname());
+		generate_mods($item, $modsXsl, $force);
+		generate_dc($item, $dcXsl, $force);
 	}
 }
 

@@ -46,10 +46,19 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
 		$mods = $this->getMods();
 		$this->ingestDatastream($mods);
+		
+		$dc = $this->getDc();
+		$this->ingestDatastream($dc);
 
-		// TN datastream.
-		if ($tn = $this->getTn()) {
-			$this->ingestDatastream($tn);
+		$dom = new DOMDocument();
+		$dom->loadXML($dc->content);
+		$xpath = new DOMXPath($dom);
+		$xpath->registerNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+		$titles = $xpath->query("//dc:title");
+		if ($titles->length > 0) {
+			$this->label = $titles->item(0)->nodeValue;
+		} else {
+			$this->label = '[No object label available]';
 		}
 
 		$this->addRelationships();
@@ -78,23 +87,22 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 		$dir_name = $pathinfo['dirname'];
 		$file_name = $pathinfo['filename'];
 		$mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.MODS.xml';
-		if (file_exists($mods_file_path)) {
-			$mods = $this->constructDatastream('MODS', 'M');
-			$mods->setContentFromFile($mods_file_path, FALSE);
-		} else {
-			// In the absence of a poper MODS file, generate a minimal one.
-			$mods = $this->constructDatastream('MODS', 'M');
-			$mods->content = <<<EOQ
-<mods xmlns='http://www.loc.gov/mods/v3'>
-  <titleInfo>
-    <title>{$file_name}</title>
-  </titleInfo>
-</mods>
-EOQ;
-		}
+		$mods = $this->constructDatastream('MODS', 'M');
+		$mods->setContentFromFile($mods_file_path, FALSE);
 		$mods->mimetype = 'application/xml';
 		$mods->label = 'MODS metadata';
 		return $mods;
 	}
 
+	private function getDc() {
+		$pathinfo = pathinfo($this->filePath);
+		$dir_name = $pathinfo['dirname'];
+		$file_name = $pathinfo['filename'];
+		$mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.DC.xml';
+		$mods = $this->constructDatastream('DC', 'M');
+		$mods->setContentFromFile($mods_file_path, FALSE);
+		$mods->mimetype = 'application/xml';
+		$mods->label = 'MODS metadata';
+		return $mods;
+	}
 }
