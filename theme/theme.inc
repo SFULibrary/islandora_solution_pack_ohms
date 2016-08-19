@@ -26,7 +26,7 @@ function islandora_ohms_build_viewer(&$variables) {
   $islandora_object = $variables['islandora_object'];
   $controller = new \Ohms\ViewerController(
     null, 
-    $islandora_object['OHMS-TRANSCRIPT']->content,
+    $islandora_object['OBJ']->content,
     islandora_ohms_settings()
   );
   ob_start();
@@ -37,7 +37,7 @@ function islandora_ohms_build_viewer(&$variables) {
 }
 
 function islandora_ohms_player($object) {
-  $content = $object['OHMS-TRANSCRIPT']->content;
+  $content = $object['OBJ']->content;
   $xml = simplexml_load_string($content);
   $clipSource = (string)$xml->record->mediafile->host;
   $playerName = strtolower($clipSource);
@@ -47,9 +47,6 @@ function islandora_ohms_player($object) {
   }
   return 'other';
 }
-
-/*
-*/
 
 
 function islandora_ohms_assets($playerName) {
@@ -88,7 +85,6 @@ function islandora_ohms_assets($playerName) {
  */
 function islandora_ohms_preprocess_islandora_ohms(array &$variables) {
     $islandora_object = $variables['islandora_object'];
-    $repository = $islandora_object->repository;
     module_load_include('inc', 'islandora', 'includes/datastream');
     module_load_include('inc', 'islandora', 'includes/utilities');
     module_load_include('inc', 'islandora', 'includes/metadata');

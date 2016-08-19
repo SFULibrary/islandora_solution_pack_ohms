@@ -1,35 +1,31 @@
 <?xml version="1.0"?>
 <dsCompositeModel xmlns="info:fedora/fedora-system:def/dsCompositeModel#">
-  <dsTypeModel ID="DC">
-    <form FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" MIME="application/xml"/>
-  </dsTypeModel>
-  <dsTypeModel ID="RELS-EXT" optional="true">
-    <form FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" MIME="application/rdf+xml"/>
-  </dsTypeModel>
-  <dsTypeModel ID="RELS-INT" optional="true">
-    <form FORMAT_URI="info:fedora/fedora-system:FedoraRELSInt-1.0" MIME="application/rdf+xml"/>
-  </dsTypeModel>
-  <dsTypeModel ID="MODS" optional="true">
-    <form FORMAT_URI="http://www.loc.gov/mods/v3" MIME="application/xml"/>
-  </dsTypeModel>
-  <dsTypeModel ID="OBJ" optional="false">
-    <form MIME="audio/mpeg"/>
-    <form MIME="audio/wav"/>
-    <form MIME="audio/x-wav"/>
-    <form MIME="audio/vnd.wave"/>
-    <form MIME="audio/flac"/>
-    <form MIME="audio/mp3"/>
-  </dsTypeModel>
-  <dsTypeModel ID="OHMS-TRANSCRIPT" optional="false">
-      <form MIME="application/xml"/>
-      <form MIME="text/xml"/>
-  </dsTypeModel>
-  <dsTypeModel ID="TN" optional="false">
-    <form MIME="image/jpeg"/>
-    <form MIME="image/png"/>
-    <form MIME="image/gif"/>
-  </dsTypeModel>
-  <dsTypeModel ID="TECHMD">
-    <form MIME="application/xml"/>
-  </dsTypeModel>
+	<dsTypeModel ID="DC">
+		<form FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" MIME="application/xml"/>
+	</dsTypeModel>
+	<dsTypeModel ID="RELS-EXT" optional="true">
+		<form FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" MIME="application/rdf+xml"/>
+	</dsTypeModel>
+	<dsTypeModel ID="RELS-INT" optional="true">
+		<form FORMAT_URI="info:fedora/fedora-system:FedoraRELSInt-1.0" MIME="application/rdf+xml"/>
+	</dsTypeModel>
+	<dsTypeModel ID="MODS" optional="true">
+		<form FORMAT_URI="http://www.loc.gov/mods/v3" MIME="application/xml"/>
+	</dsTypeModel>
+	<dsTypeModel ID="OBJ" optional="false">
+		<form MIME="application/xml"/>
+		<form MIME="text/xml"/>
+	</dsTypeModel>
+	<dsTypeModel ID="OHMS-RECORDING" optional="true">
+		<form MIME="audio/*"/>
+		<form MIME="video/*"/>
+	</dsTypeModel>
+	<dsTypeModel ID="TN" optional="false">
+		<form MIME="image/jpeg"/>
+		<form MIME="image/png"/>
+		<form MIME="image/gif"/>
+	</dsTypeModel>
+	<dsTypeModel ID="TECHMD">
+		<form MIME="application/xml"/>
+	</dsTypeModel>
 </dsCompositeModel>
