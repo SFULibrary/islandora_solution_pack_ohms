@@ -329,6 +329,10 @@ a.graylink {
     padding-bottom: 2px;
 }
 
+legend {
+    font: 80%/1 sans-serif;
+}
+
 .error-msg {
     background-color: #ffffcc;
     padding-top: 2px;
@@ -401,69 +405,69 @@ div.point {
 }
 
 .centered {
-	margin: auto;
-	width: 602px;
+  margin: auto;
+  width: 602px;
 }
 
 #youtubePlayer {
 }
 
 #kaltura_player_embed {
-	width: 500px;
-	height: 279px;
-	overflow: hidden;
-	margin-left:auto;
-	margin-right:auto;
-}
+  width: 500px;
+  height: 279px;
+  overflow: hidden;
+  margin-left:auto;
+  margin-right:auto;
+  }
 
 #ohms-header {
-	width: 82%;
-	height: 200px;
-	margin: 0 auto;
-	border-bottom: 5px solid #337ab7;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-	background: #3c3c3c;
-	padding-top: 10px;
+  width: 82%;
+  height: 200px;
+  margin: 0 auto;
+  border-bottom: 5px solid #337ab7;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  background: #3c3c3c;
+  padding-top: 10px;
 }
 
 #ohms-headervid {
-	width: 82%;
-	height: auto;
-	min-height: 215px;
-	margin: 0 auto;
-	border-bottom: 5px solid #337ab7;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-	background: #3c3c3c;
-	padding-top: 10px;
-	display: inline-block;
-	padding-bottom: 12px;
+  width: 82%;
+  height: auto;
+  min-height: 215px;
+  margin: 0 auto;
+  border-bottom: 5px solid #337ab7;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  background: #3c3c3c;
+  padding-top: 10px;
+  display: inline-block;
+  padding-bottom: 12px;
 }
 
 #audio-panel {
-	width: 100%;
-	height: 100%;
-	/*padding-top: 10px;*/
-	padding-bottom: 10px;
-	text-align: center;
-	margin: 0px;
-	margin-right: auto;
-	margin-top: 20px;
-	margin-bottom: 15px;
-	background-color: #3c3c3c;
+  width: 100%;
+  height: 100%;
+  /*padding-top: 10px;*/
+  padding-bottom: 10px;
+  text-align: center;
+  margin: 0px;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  background-color: #3c3c3c;
 }
 
 #holder-panel {
-	width: 325px;
-	height: 550px;
-	position: relative;
-	float: left;
-	overflow: auto;
-	outline: 0;
-	margin: auto;
-	padding-left: 80px;
-	padding-right: 20px;
-	background: #ffffff;
-	text-align: left;
+  width: 325px;
+  height: 550px;
+  position: relative;
+  float: left;
+  overflow: auto;
+  outline: 0;
+  margin: auto;
+  padding-left: 80px;
+  padding-right: 20px;
+  background: #ffffff;
+  text-align: left;
 }
 
 
@@ -472,51 +476,70 @@ div.point {
 }
 
 #ohms-main {
-	width: 82%;
-	height: 550px;
-	margin: auto;
-	border: 1px solid #c2c2c2;
-	border-width: 0 1px;
-	background: #ffffff;
-	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  width: 82%;
+  height: 550px;
+  margin: auto;
+  border: 1px solid #c2c2c2;
+  border-width: 0 1px;
+  background: #ffffff;
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }
 
 #content-panel {
 	position: absolute;
 	width: 510px;	
-    height: 548px;
+  height: 548px;
 	overflow: auto;
-	border: 1px solid #dcdcdc;
+  border: 1px solid #dcdcdc;
 	margin: auto;
-	background: #ffffff;
-	text-align: left;
+  background: #ffffff;
+  text-align: left;
 	box-sizing: border-box;
 }
 
 #transcript-panel {
-	display: none;
+  display: none;
 }
 
 #searchbox-panel {
 	padding-top: 10px;
-	height: 550px;
+  height: 550px;
 	position: absolute;
 	left: 620px;
 }
 
 #search-results {
-	overflow-y: auto;
+  overflow-y: auto;
     height: 65%;
-	width: 100%;
+  width: 100%;
 }
 
-.jumpLink {
-	position: absolute;
-	left: 1px;
-	font-size: 10px;
-	color: #0000ff;
-	text-decoration: none;
-	font-weight: bold;
+#search-toggle, #language-toggle {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 100%;
 }
+
+#ohms-main fieldset {
+  position: relative;
+  display: table-cell;
+  margin: 0 auto;
+}
+
+#transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
+  position: absolute;
+  left: 1px;
+  font-size: 10px;
+  color: #0000ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+    #search-toggle {
+        width: 100%;
+    }
+    #searchbox-panel {
+        margin-left: 8%;
+    }
