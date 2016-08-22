@@ -49,6 +49,11 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 		
 		$dc = $this->getDc();
 		$this->ingestDatastream($dc);
+    
+    $tn = $this->getTn();
+    if($tn) {
+      $this->ingestDatastream($tn);
+    }
 
 		$dom = new DOMDocument();
 		$dom->loadXML($dc->content);
@@ -88,7 +93,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 		$file_name = $pathinfo['filename'];
 		$mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.MODS.xml';
 		$mods = $this->constructDatastream('MODS', 'M');
-		$mods->setContentFromFile($mods_file_path, FALSE);
+		$mods->setContentFromFile($mods_file_path);
 		$mods->mimetype = 'application/xml';
 		$mods->label = 'MODS metadata';
 		return $mods;
@@ -100,9 +105,26 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 		$file_name = $pathinfo['filename'];
 		$mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.DC.xml';
 		$mods = $this->constructDatastream('DC', 'M');
-		$mods->setContentFromFile($mods_file_path, FALSE);
+		$mods->setContentFromFile($mods_file_path);
 		$mods->mimetype = 'application/xml';
 		$mods->label = 'MODS metadata';
 		return $mods;
 	}
+  
+  private function getTn() {    
+		$pathinfo = pathinfo($this->filePath);
+		$dir_name = $pathinfo['dirname'];
+		$file_name = $pathinfo['filename'];
+    $basename = basename($file_name, '.xml');
+    $tn_file_name = $dir_name . DIRECTORY_SEPARATOR . $basename . '.TN.jpg';
+
+    if(file_exists($tn_file_name)) {
+      $tn = $this->constructDatastream('TN', 'M');
+      $tn->setContentFromFile($tn_file_name);
+      $tn->mimetype = 'image/jpeg';
+      $tn->label = 'Thumbnail';
+      return $tn;
+    }
+    return null;
+  }
 }
