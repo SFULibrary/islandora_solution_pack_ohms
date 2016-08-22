@@ -57,6 +57,14 @@
 			<xsl:value-of select="."/>
 		</dc:description>
 	</xsl:template>
+    
+    <xsl:template match="index">
+        <dc:description>
+            <xsl:for-each select="point/title">
+                <xsl:value-of select="."/><xsl:value-of select="$toc-separator"/>
+            </xsl:for-each>
+        </dc:description>
+    </xsl:template>
 	
 	<xsl:template match="interviewee | interviewer">
 		<dc:contributor>
