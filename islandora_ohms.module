@@ -34,7 +34,7 @@ function islandora_ohms_menu() {
 /**
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
-function islandora_ohms_islandora_sp_ohms_islandora_view_object($object, $page_number, $page_size) {
+function islandora_ohms_islandora_sp_ohms_islandora_view_object($object) {
   $output = theme('islandora_ohms', array('islandora_object' => $object));
   return $output;
 }

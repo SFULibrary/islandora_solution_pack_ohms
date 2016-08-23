@@ -6,7 +6,9 @@
  * @TODO: add documentation about file and available variables
  */
 ?>
-
+<script type="text/javascript">
+  var cachefile = "<?php echo $islandora_object->id ?>";
+</script>
 <div id='ohms_body'>
 	<?php print $islandora_content; ?>
 </div>
