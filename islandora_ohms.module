@@ -28,53 +28,53 @@ function islandora_ohms_menu() {
       'file' => 'includes/admin.form.inc',
       'type' => MENU_NORMAL_ITEM,
     ),
-	'islandora/ohms/search' => array(
-		'title' => 'OHMS search',
-		'description' => 'Search one OHMS transription or index. ',
-		'access arguments' => array('access content'),
-		'page callback' => 'islandora_ohms_search',
-		'page arguments' => array('kw', 'action', 'pid'),
-		'type' => MENU_CALLBACK
-	),	  
+    'islandora/ohms/search' => array(
+      'title' => 'OHMS search',
+      'description' => 'Search one OHMS transription or index. ',
+      'access arguments' => array('access content'),
+      'page callback' => 'islandora_ohms_search',
+      'page arguments' => array('kw', 'action', 'pid'),
+      'type' => MENU_CALLBACK,
+    ),
   );
 }
 
 function islandora_ohms_settings() {
-	return array(
-		'tmpDir' => variable_get('islandora_ohms_viewer_link_xml', FALSE),
-		'players' => variable_get('islandora_ohms_players', 'other,brightcove,kaltura,youtube'),
-		'timezone' => variable_get('islandora_ohms_timezone', date_default_timezone(false)),
-		variable_get('islandora_ohms_collection', '') => array(
-			'css' => 'custom_default.css',
-			'footerimg' => '',
-			'footerimgalt' => '',
-			'contactemail' => variable_get('islandora_ohms_contactemail', ''),
-			'contactlink' => variable_get('islandora_ohms_contactlink', ''),
-			'copyrightholder' => variable_get('islandora_ohms_copyright', ''),
-			'open_graph_description' => '',
-			'open_graph_image' => '',
-			'ga_tracking_id' => '',
-			'ga_host' => '',
-		)
-	);
+  return array(
+    'tmpDir' => variable_get('islandora_ohms_viewer_link_xml', FALSE),
+    'players' => variable_get('islandora_ohms_players', 'other,brightcove,kaltura,youtube'),
+    'timezone' => variable_get('islandora_ohms_timezone', date_default_timezone(FALSE)),
+    variable_get('islandora_ohms_collection', '') => array(
+      'css' => 'custom_default.css',
+      'footerimg' => '',
+      'footerimgalt' => '',
+      'contactemail' => variable_get('islandora_ohms_contactemail', ''),
+      'contactlink' => variable_get('islandora_ohms_contactlink', ''),
+      'copyrightholder' => variable_get('islandora_ohms_copyright', ''),
+      'open_graph_description' => '',
+      'open_graph_image' => '',
+      'ga_tracking_id' => '',
+      'ga_host' => '',
+    ),
+  );
 }
 
 function islandora_ohms_search() {
-	drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
-	$path = drupal_get_path('module', 'islandora_ohms');
-	require $path . '/lib/ohms-viewer/vendor/autoload.php';
-	
-	$args = drupal_get_query_parameters();
-	$object = islandora_object_load($args['cachefile']);
-	$xml = $object->getDatastream('OBJ')->content;
-	
-	$controller = new \Ohms\ViewerController(null, $xml, islandora_ohms_settings());
-	ob_start();
-	$controller->route($args['action'], $args['kw'], null);	
-	$output = ob_get_clean();
+  drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
+  $path = drupal_get_path('module', 'islandora_ohms');
+  require $path . '/lib/ohms-viewer/vendor/autoload.php';
 
-	print $output;	
-	drupal_exit();
+  $args = drupal_get_query_parameters();
+  $object = islandora_object_load($args['cachefile']);
+  $xml = $object->getDatastream('OBJ')->content;
+
+  $controller = new \Ohms\ViewerController(NULL, $xml, islandora_ohms_settings());
+  ob_start();
+  $controller->route($args['action'], $args['kw'], NULL);
+  $output = ob_get_clean();
+
+  print $output;
+  drupal_exit();
 }
 
 /**
@@ -95,7 +95,7 @@ function islandora_ohms_theme($object, $type, $theme, $path) {
       'template' => 'theme/islandora-ohms',
       'pattern' => 'islandora_ohms__',
       'variables' => array(
-        'islandora_object' => null,
+        'islandora_object' => NULL,
       ),
     ),
   );
@@ -104,7 +104,7 @@ function islandora_ohms_theme($object, $type, $theme, $path) {
 /**
  * Implements hook_islandora_required_objects().
  */
-function islandora_ohms_islandora_required_objects(IslandoraTuque $connection) {
+function islandora_ohms_islandora_required_objects(IslandoraTuque$connection) {
   $module_path = drupal_get_path('module', 'islandora_ohms');
   // Islandora OHMS Content Model.
   $ohms_content_model = $connection->repository->constructObject('islandora:sp_ohms');
@@ -177,3 +177,4 @@ function islandora_ohms_islandora_xml_form_builder_form_associations() {
     ),
   );
 }
+
