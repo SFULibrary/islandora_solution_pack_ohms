@@ -1,25 +1,5 @@
 <?php
 
-function islandora_ohms_settings() {
-	return array(
-		'tmpDir' => variable_get('islandora_ohms_viewer_link_xml', FALSE),
-		'players' => variable_get('islandora_ohms_players', 'other,brightcove,kaltura,youtube'),
-		'timezone' => variable_get('islandora_ohms_timezone', date_default_timezone(false)),
-		variable_get('islandora_ohms_collection', '') => array(
-			'css' => 'custom_default.css',
-			'footerimg' => '',
-			'footerimgalt' => '',
-			'contactemail' => variable_get('islandora_ohms_contactemail', ''),
-			'contactlink' => variable_get('islandora_ohms_contactlink', ''),
-			'copyrightholder' => variable_get('islandora_ohms_copyright', ''),
-			'open_graph_description' => '',
-			'open_graph_image' => '',
-			'ga_tracking_id' => '',
-			'ga_host' => '',
-		)
-	);
-}
-
 function islandora_ohms_build_viewer(&$variables) {
 	$path = drupal_get_path('module', 'islandora_ohms');
 	require $path . '/lib/ohms-viewer/vendor/autoload.php';
@@ -107,7 +87,8 @@ function islandora_ohms_preprocess_islandora_ohms(array &$variables) {
 	$variables['parent_collections'] = islandora_get_parents_from_rels_ext($islandora_object);
 	$variables['metadata'] = islandora_retrieve_metadata_markup($islandora_object);
 	$variables['description'] = islandora_retrieve_description_markup($islandora_object);
-
+	$variables['searchUrl'] = url('islandora/ohms/search');
+	
 	islandora_ohms_build_viewer($variables);
 	$playerName = islandora_ohms_player($islandora_object);
 	$variables['playerName'] = $playerName;

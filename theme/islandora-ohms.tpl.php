@@ -8,6 +8,7 @@
 ?>
 <script type="text/javascript">
   var cachefile = "<?php echo $islandora_object->id ?>";
+  var searchUrl = "<?php echo $searchUrl; ?>";
 </script>
 <div id='ohms_body'>
 	<?php print $islandora_content; ?>

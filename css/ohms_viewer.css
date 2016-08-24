@@ -16,7 +16,7 @@
     color: #0070b3;
 }
 
-a.graylink {
+#ohms_body a.graylink {
     color: #bbbbbb;
 }
 
@@ -498,54 +498,54 @@ a.graylink {
 	Layout.
 */
 
-#main-panels {
+#ohms_body #main-panels {
 	position: relative;
 	outline: 1px solid lightgrey;
 }
 
-#content-panel {
+#ohms_body #content-panel {
     margin-top: 10px;
 	width: 66%;
 	outline: 1px solid lightgrey;
 }
 
-#searchbox-panel {
+#ohms_body #searchbox-panel {
 	position:absolute;
 	top: 0;
 	right: 0;
 	width: 33%;
 }
 
-#search-toggle,
-#alert,
-#search-form,
-#search-results {
+#ohms_body #search-toggle,
+#ohms_body #alert,
+#ohms_body #search-form,
+#ohms_body #search-results {
 	width: 60%;
 	margin: 0 auto;
 }
 
-#search-form input {
+#ohms_body #search-form input {
 	width: 60%;
 }
 
-.transcript-line {
+#ohms_body .transcript-line {
 	position:relative;
 }
 
-p .transcript-line {
+#ohms_body p .transcript-line {
 	position: inherit;
 }
 
-.transcript-line p {
+#ohms_body .transcript-line p {
 	padding-left: 60px;
 }
 
-.transcript-line a.jumpLink {
+#ohms_body .transcript-line a.jumpLink {
 	position: absolute;
 	left: 5px;
 	z-index: 1;
 }
 
-.segmentLinkTextBox {
+#ohms_body .segmentLinkTextBox {
 	width: 97%;
 }
