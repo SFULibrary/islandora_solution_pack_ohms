@@ -379,6 +379,7 @@ a.graylink {
 
 #ohms_body .centered {
   margin: auto;
+  width: 600px;
 }
 
 #ohms_body #kaltura_player_embed {
@@ -461,12 +462,11 @@ a.graylink {
 #ohms_body #index-panel,
 #ohms_body #index-panel-alt {
   height: 548px;
-  margin-top: 10px;
   overflow: auto;
 }
 
 #ohms_body #searchbox-panel {
-  height: 550px;
+  max-height: 545px;
   background: #ffffff;
 }
 
@@ -500,16 +500,32 @@ a.graylink {
 
 #main-panels {
 	position: relative;
+	outline: 1px solid lightgrey;
 }
 
 #content-panel {
+    margin-top: 10px;
 	width: 66%;
+	outline: 1px solid lightgrey;
 }
 
 #searchbox-panel {
 	position:absolute;
 	top: 0;
 	right: 0;
+	width: 33%;
+}
+
+#search-toggle,
+#alert,
+#search-form,
+#search-results {
+	width: 60%;
+	margin: 0 auto;
+}
+
+#search-form input {
+	width: 60%;
 }
 
 .transcript-line {
