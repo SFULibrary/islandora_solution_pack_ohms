@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @file
+ */
+/**
+ *
+ */
 class IslandoraOhmsBatchPreprocessor extends IslandoraBatchPreprocessor {
 
   public function preprocess() {
@@ -25,5 +32,5 @@ class IslandoraOhmsBatchPreprocessor extends IslandoraBatchPreprocessor {
     }
     return $queue;
   }
-}
 
+}

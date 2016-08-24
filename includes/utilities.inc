@@ -1,11 +1,16 @@
 <?php
 
 /**
- * Load a DOM document from a file on disk
+ * @file
+ */
+
+/**
+ * Load a DOM document from a file on disk.
  *
  * @param string $path
  *
  * @return \DOMDocument
+ *
  * @throws Exception
  */
 function islandora_ohms_get_dom($path) {
@@ -80,14 +85,14 @@ function islandora_ohms_apply_stylesheet($path, XSLTProcessor$xsl) {
 
 /**
  *
- * @param type $target
- * @param type $recursive
+ * @param string or int or object... $target
+ * @param string or int or object... $recursive
  *
  * @return Iterator|SplFileInfo[]
  */
 function islandora_ohms_get_iterator($target, $recursive) {
   $filter =
-  function (SplFileInfo$item) {
+  function () {
     if ($item->getExtension() !== 'xml') {
       return FALSE;
     }
@@ -105,4 +110,3 @@ function islandora_ohms_get_iterator($target, $recursive) {
   $rex = new CallbackFilterIterator($dir, $filter);
   return $rex;
 }
-

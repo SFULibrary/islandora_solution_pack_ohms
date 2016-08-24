@@ -2,7 +2,7 @@
 
 /**
  * @file
- * This is the template file for the object page for ohms file
+ * This is the template file for the object page for ohms file.
  *
  * @TODO: add documentation about file and available variables
  */
@@ -28,4 +28,3 @@
 	<?php endif; ?>
 	<?php print $metadata; ?>
 </div>
-

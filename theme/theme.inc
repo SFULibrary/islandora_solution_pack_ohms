@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * @file
+ */
 function islandora_ohms_build_viewer(&$variables) {
   $path = drupal_get_path('module', 'islandora_ohms');
   require $path . '/lib/ohms-viewer/vendor/autoload.php';
@@ -39,7 +43,6 @@ function islandora_ohms_assets($playerName) {
   drupal_add_css($cssPath . "/jquery-ui-1.8.16.custom.css");
   drupal_add_css($cssPath . "/font-awesome.css");
 
-
   $jsPath = $path . '/lib/ohms-viewer/js';
   drupal_add_css($jsPath . "/fancybox_2_1_5/source/jquery.fancybox.css");
   drupal_add_css($jsPath . "/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css");
@@ -77,7 +80,7 @@ function islandora_ohms_preprocess_islandora_ohms(array & $variables) {
       $dc_object = DublinCore::importFromXMLString($dc);
     }
   }
-  catch(Exception$e) {
+  catch (Exception$e) {
     drupal_set_message(t('Error retrieving object %s %t', array('%s' => $islandora_object->id, '%t' => $e->getMessage())), 'error', FALSE);
   }
   $variables['islandora_dublin_core'] = isset($dc_object) ? $dc_object : NULL;
@@ -94,4 +97,3 @@ function islandora_ohms_preprocess_islandora_ohms(array & $variables) {
   $variables['playerName'] = $playerName;
   islandora_ohms_assets($playerName);
 }
-

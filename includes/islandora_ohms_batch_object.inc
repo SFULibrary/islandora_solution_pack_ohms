@@ -18,7 +18,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
   protected $filePath;
 
   /**
-   * Batch injest parameters
+   * Batch injest parameters.
    *
    * @var array
    */
@@ -27,7 +27,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
   /**
    * Constructor.
    */
-  public function __construct(IslandoraTuque$connection, $path, $params) {
+  public function __construct(IslandoraTuque , $path, $params) {
     parent::__construct(NULL, $connection->repository);
     $this->filePath = $path;
     $this->params = $params;
@@ -128,5 +128,5 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     }
     return NULL;
   }
-}
 
+}

@@ -75,14 +75,14 @@ function islandora_ohms_drush_command() {
 
 /**
  *
- * @param type $target
- * @param type $recursive
+ * @param string or int or object... $target
+ * @param string or int or object... $recursive
  *
  * @return Iterator|SplFileInfo[]
  */
 function get_iterator($target, $recursive) {
   $filter =
-  function (SplFileInfo$item) {
+  function () {
     if ($item->getExtension() !== 'xml') {
       return FALSE;
     }
@@ -101,7 +101,7 @@ function get_iterator($target, $recursive) {
   return $rex;
 }
 
-function generate_mods(SplFileInfo$item, XSLTProcessor$xsl, $force) {
+function generate_mods(SplFileInfo , XSLTProcessor$xsl, $force) {
   $modsFile = preg_replace('/(?<!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
   if (file_exists($modsFile) && !$force) {
     drupal_set_message("Skipping {$modsFile}.");
@@ -112,7 +112,7 @@ function generate_mods(SplFileInfo$item, XSLTProcessor$xsl, $force) {
   file_put_contents($modsFile, $mods->saveXML());
 }
 
-function generate_dc(SplFileInfo$item, XSLTProcessor$xsl, $force) {
+function generate_dc(SplFileInfo , XSLTProcessor$xsl, $force) {
   $modsFile = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
   if (file_exists($modsFile) && !$force) {
     drupal_set_message("Skipping {$modsFile}.");
@@ -147,7 +147,6 @@ function drush_islandora_ohms_generate_mods($target) {
       'toc-separator' => $separator,
     ));
 
-
   foreach ($iterator as $item) {
     $name = $item->getFilename();
     if ($name[0] === '.') {
@@ -174,4 +173,3 @@ function drush_islandora_ohms_batch_preprocess($target) {
   $preprocessor = new IslandoraOhmsBatchPreprocessor($connection, $parameters);
   $preprocessed = islandora_batch_handle_preprocessor($preprocessor);
 }
-
