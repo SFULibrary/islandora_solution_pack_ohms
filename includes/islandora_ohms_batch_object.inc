@@ -25,8 +25,8 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
   protected $params;
 
   /**
-   * Constructor
-   * 
+   * Constructor.
+   *
    * @param IslandoraTuque $connection
    *   Connection object.
    * @param string $path
@@ -42,7 +42,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Assemble the base datastreams.
-   * 
+   *
    * @return int
    *   One of the ISLANDORA_BATCH_STATE__* constants.
    */
@@ -100,7 +100,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Generate a MODS data stream for the object.
-   * 
+   *
    * @return DataStream
    *   The generated datastream, ready for ingest.
    */
@@ -118,7 +118,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Generate a DC data stream for the object.
-   * 
+   *
    * @return DataStream
    *   The generated datastream, ready for ingest.
    */
@@ -136,7 +136,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Generate a thumbnail data stream for the object.
-   * 
+   *
    * @return DataStream|null
    *   The generated datastream, ready for ingest or null if one wasn't found.
    */

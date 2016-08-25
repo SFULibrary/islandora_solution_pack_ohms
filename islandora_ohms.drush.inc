@@ -106,12 +106,12 @@ function get_iterator($target, $recursive) {
 
 /**
  * Generate a MODS file from an OHMS XML file.
- * 
+ *
  * @param SplFileInfo $item
  *   The iterator item.
  * @param XSLTProcessor $xsl
  *   The XSL to transform the XML.
- * @param boolean $force
+ * @param bool $forceIf true, overwrite an existing MODS file.
  *   If true, overwrite an existing MODS file.
  */
 function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
@@ -127,15 +127,15 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
 
 /**
  * Generate a DC file from an OHMS XML file.
- * 
+ *
  * @param SplFileInfo $item
  *   The iterator item.
  * @param XSLTProcessor $xsl
  *   The XSL to transform the XML.
- * @param boolean $force
+ * @param bool $forceIf true, overwrite an existing MODS file.
  *   If true, overwrite an existing MODS file.
  */
-function generate_dc(SplFileInfo $item ,XSLTProcessor $xsl, $force) {
+function generate_dc(SplFileInfo $item, XSLTProcessor $xsl, $force) {
   $dc_path = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
   if (file_exists($dc_path) && !$force) {
     drupal_set_message("Skipping {$dc_path}.");
@@ -148,9 +148,10 @@ function generate_dc(SplFileInfo $item ,XSLTProcessor $xsl, $force) {
 
 /**
  * Generate the metadata for an OHMS XML file.
- * 
+ *
  * @param string $target
  *   Path to the XML file.
+ *
  * @return bool
  *   True or false for success or failure.
  */
@@ -187,15 +188,15 @@ function drush_islandora_ohms_generate_metadata($target) {
     generate_mods($item, $mods_xsl, $force);
     generate_dc($item, $dc_xsl, $force);
   }
-  return true;
+  return TRUE;
 }
 
 /**
  * Drush callback function to preprocess a directory for batch ingest.
- * 
+ *
  * @param string $target
  *   Path to the directory.
- * 
+ *
  * @return bool
  *   True or false for success or failure.
  */
@@ -213,5 +214,5 @@ function drush_islandora_ohms_batch_preprocess($target) {
   module_load_include('inc', 'islandora_ohms', 'IslandoraOhmsBatchPreprocess');
   $preprocessor = new IslandoraOhmsBatchPreprocessor($connection, $parameters);
   $preprocessed = islandora_batch_handle_preprocessor($preprocessor);
-  return true;
+  return TRUE;
 }

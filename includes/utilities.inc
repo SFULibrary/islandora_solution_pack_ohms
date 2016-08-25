@@ -54,7 +54,7 @@ function islandora_ohms_xml_exception() {
  *
  * @return \XSLTProcessor
  *   The generated processor with the options in place.
- * 
+ *
  * @throws Exception
  *   If libxml cannot parse the XSL.
  */
@@ -84,7 +84,7 @@ function islandora_ohms_get_stylesheet($path, $opts = array()) {
  *
  * @return DOMDocument
  *   The processed XML document.
- * 
+ *
  * @throws Exception
  *   For any libxml error.
  */

@@ -12,7 +12,7 @@ class IslandoraOhmsBatchPreprocessor extends IslandoraBatchPreprocessor {
 
   /**
    * Preprocess one object.
-   * 
+   *
    * @return array
    *   The preprocessed queue of objects.
    */
