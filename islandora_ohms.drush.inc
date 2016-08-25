@@ -11,10 +11,10 @@
 function islandora_ohms_drush_command() {
   $items = array();
 
-  $items['islandora_ohms_generate_mods'] = array(
+  $items['islandora_ohms_generate_metadata'] = array(
     'aliases' => array('iogm'),
     'description' => 'Preprocess the OHMS XML files to generate MODS metadata.',
-    'callback' => 'drush_islandora_ohms_generate_mods',
+    'callback' => 'drush_islandora_ohms_generate_metadata',
     'arguments' => array(
       'target' => array(
         'description' => 'The target directory to scan.',
@@ -74,15 +74,18 @@ function islandora_ohms_drush_command() {
 }
 
 /**
+ * Get a directory iterator.
  *
- * @param string or int or object... $target
- * @param string or int or object... $recursive
+ * @param string $target
+ *   Path to the target directory.
+ * @param bool $recursive
+ *   True if the directory should be searched recursively.
  *
  * @return Iterator|SplFileInfo[]
+ *   The iterator for the directory structure.
  */
 function get_iterator($target, $recursive) {
-  $filter =
-  function () {
+  $filter = function (SplFileInfo $item) {
     if ($item->getExtension() !== 'xml') {
       return FALSE;
     }
@@ -101,34 +104,62 @@ function get_iterator($target, $recursive) {
   return $rex;
 }
 
-function generate_mods(SplFileInfo , XSLTProcessor$xsl, $force) {
-  $modsFile = preg_replace('/(?<!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
-  if (file_exists($modsFile) && !$force) {
-    drupal_set_message("Skipping {$modsFile}.");
+/**
+ * Generate a MODS file from an OHMS XML file.
+ * 
+ * @param SplFileInfo $item
+ *   The iterator item.
+ * @param XSLTProcessor $xsl
+ *   The XSL to transform the XML.
+ * @param boolean $force
+ *   If true, overwrite an existing MODS file.
+ */
+function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
+  $mods_path = preg_replace('/(?<!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
+  if (file_exists($mods_path) && !$force) {
+    drupal_set_message("Skipping {$mods_path}.");
     return;
   }
 
   $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
-  file_put_contents($modsFile, $mods->saveXML());
+  file_put_contents($mods_path, $mods->saveXML());
 }
 
-function generate_dc(SplFileInfo , XSLTProcessor$xsl, $force) {
-  $modsFile = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
-  if (file_exists($modsFile) && !$force) {
-    drupal_set_message("Skipping {$modsFile}.");
+/**
+ * Generate a DC file from an OHMS XML file.
+ * 
+ * @param SplFileInfo $item
+ *   The iterator item.
+ * @param XSLTProcessor $xsl
+ *   The XSL to transform the XML.
+ * @param boolean $force
+ *   If true, overwrite an existing MODS file.
+ */
+function generate_dc(SplFileInfo $item ,XSLTProcessor $xsl, $force) {
+  $dc_path = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
+  if (file_exists($dc_path) && !$force) {
+    drupal_set_message("Skipping {$dc_path}.");
     return;
   }
 
   $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
-  file_put_contents($modsFile, $mods->saveXML());
+  file_put_contents($dc_path, $mods->saveXML());
 }
 
-function drush_islandora_ohms_generate_mods($target) {
+/**
+ * Generate the metadata for an OHMS XML file.
+ * 
+ * @param string $target
+ *   Path to the XML file.
+ * @return bool
+ *   True or false for success or failure.
+ */
+function drush_islandora_ohms_generate_metadata($target) {
   module_load_include('inc', 'islandora_ohms', 'includes/utilities');
 
   $recursive = drush_get_option('recursive', FALSE);
-  $modsXslFile = drush_get_option('mods-stylesheet', dirname(__FILE__) . '/xsl/ohms2mods.xsl');
-  $dcXslFile = drush_get_option('dc-stylesheet', dirname(__FILE__) . '/xsl/ohms2dc.xsl');
+  $mods_xsl_path = drush_get_option('mods-stylesheet', dirname(__FILE__) . '/xsl/ohms2mods.xsl');
+  $dc_xsl_path = drush_get_option('dc-stylesheet', dirname(__FILE__) . '/xsl/ohms2dc.xsl');
 
   $force = drush_get_option('force', FALSE);
   $separator = drush_get_option('toc-separator', ' -- ');
@@ -139,11 +170,11 @@ function drush_islandora_ohms_generate_mods($target) {
 
   $iterator = get_iterator($target, $recursive);
 
-  $modsXsl = islandora_ohms_get_stylesheet($modsXslFile, array(
+  $mods_xsl = islandora_ohms_get_stylesheet($mods_xsl_path, array(
       'toc-separator' => $separator,
     ));
 
-  $dcXsl = islandora_ohms_get_stylesheet($dcXslFile, array(
+  $dc_xsl = islandora_ohms_get_stylesheet($dc_xsl_path, array(
       'toc-separator' => $separator,
     ));
 
@@ -153,11 +184,21 @@ function drush_islandora_ohms_generate_mods($target) {
       continue;
     }
     drupal_set_message($item->getPathname());
-    generate_mods($item, $modsXsl, $force);
-    generate_dc($item, $dcXsl, $force);
+    generate_mods($item, $mods_xsl, $force);
+    generate_dc($item, $dc_xsl, $force);
   }
+  return true;
 }
 
+/**
+ * Drush callback function to preprocess a directory for batch ingest.
+ * 
+ * @param string $target
+ *   Path to the directory.
+ * 
+ * @return bool
+ *   True or false for success or failure.
+ */
 function drush_islandora_ohms_batch_preprocess($target) {
   drupal_static_reset('islandora_get_tuque_connection');
   $connection = islandora_get_tuque_connection();
@@ -172,4 +213,5 @@ function drush_islandora_ohms_batch_preprocess($target) {
   module_load_include('inc', 'islandora_ohms', 'IslandoraOhmsBatchPreprocess');
   $preprocessor = new IslandoraOhmsBatchPreprocessor($connection, $parameters);
   $preprocessed = islandora_batch_handle_preprocessor($preprocessor);
+  return true;
 }

@@ -2,16 +2,20 @@
 
 /**
  * @file
+ * Utility functions for Islandora OHMS.
  */
 
 /**
  * Load a DOM document from a file on disk.
  *
  * @param string $path
+ *   Path to the XML document.
  *
  * @return \DOMDocument
+ *   The parsed DOM document.
  *
  * @throws Exception
+ *   If libxml cannot read the xml file.
  */
 function islandora_ohms_get_dom($path) {
   $errors = libxml_use_internal_errors(TRUE);
@@ -30,6 +34,7 @@ function islandora_ohms_get_dom($path) {
  * Generate an exception from the libxml errors and return it.
  *
  * @return \Exception
+ *   Exception with the errors as the message.
  */
 function islandora_ohms_xml_exception() {
   $m = "";
@@ -40,12 +45,18 @@ function islandora_ohms_xml_exception() {
 }
 
 /**
+ * Get an XSL Processor.
  *
- * @param string $path location of the xsl file on disk
- * @param array $opts parameters to the xsl
+ * @param string $path
+ *   Location of the xsl file on disk.
+ * @param array $opts
+ *   Parameters to the xsl.
  *
  * @return \XSLTProcessor
+ *   The generated processor with the options in place.
+ * 
  * @throws Exception
+ *   If libxml cannot parse the XSL.
  */
 function islandora_ohms_get_stylesheet($path, $opts = array()) {
   $errors = libxml_use_internal_errors(TRUE);
@@ -64,14 +75,20 @@ function islandora_ohms_get_stylesheet($path, $opts = array()) {
 }
 
 /**
+ * Apply an XSL to an XML File.
  *
- * @param string $path to the xml file on disk
- * @param XSLTProcessor $xsl the stylesheet to run
+ * @param string $path
+ *   Path to the xml file on disk.
+ * @param XSLTProcessor $xsl
+ *   The parsed stylesheet to run.
  *
  * @return DOMDocument
+ *   The processed XML document.
+ * 
  * @throws Exception
+ *   For any libxml error.
  */
-function islandora_ohms_apply_stylesheet($path, XSLTProcessor$xsl) {
+function islandora_ohms_apply_stylesheet($path, XSLTProcessor $xsl) {
   $errors = libxml_use_internal_errors(TRUE);
   $dom = islandora_ohms_get_dom($path);
   $result = $xsl->transformToDoc($dom);
@@ -84,15 +101,18 @@ function islandora_ohms_apply_stylesheet($path, XSLTProcessor$xsl) {
 }
 
 /**
+ * Get a directory iterator.
  *
- * @param string or int or object... $target
- * @param string or int or object... $recursive
+ * @param string $target
+ *   Path to the directory.
+ * @param bool $recursive
+ *   If true, then the subdirectories will be processed.
  *
  * @return Iterator|SplFileInfo[]
+ *   An iterator of file info objects.
  */
 function islandora_ohms_get_iterator($target, $recursive) {
-  $filter =
-  function () {
+  $filter = function () {
     if ($item->getExtension() !== 'xml') {
       return FALSE;
     }

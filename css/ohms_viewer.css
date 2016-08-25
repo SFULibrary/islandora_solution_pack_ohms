@@ -1,17 +1,3 @@
-/*#ohms_body div {
-	outline: 1px solid grey;
-	margin: 2px;
-	padding: 2px;
-}
-
-#ohms_body div:before {
-	content: "#" attr(id);
-	font-size: 8px;
-	font-weight: bold;
-	font-family: monospace;
-	color: darkblue;
-}*/
-
 #ohms_body a {
   color: 10070b3;
 }
@@ -416,10 +402,6 @@
   background-color: #3c3c3c;
 }
 
-#ohms_body #holder-panel {
-}
-
-
 #ohms_body .center {
   width: 100% !important;
 }
@@ -444,12 +426,6 @@
 
 #ohms_body #main-panels {
   margin: 0px;
-}
-
-#ohms_body #content-panel {
-}
-
-#ohms_body #secondaryMetaData {
 }
 
 #ohms_body #transcript-panel,

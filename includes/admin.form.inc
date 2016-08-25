@@ -16,7 +16,7 @@
  * @return array
  *   The Drupal form definition.
  */
-function islandora_ohms_admin(array , array & $form_state) {
+function islandora_ohms_admin(array $form, array & $form_state) {
   $form['ohms_viewer_link_xml'] = array(
     '#type' => 'checkbox',
     '#title' => 'Link to the OHMS XML',
@@ -73,11 +73,5 @@ function islandora_ohms_admin(array , array & $form_state) {
     '#default_value' => variable_get('islandora_ohms_copyright', ''),
   );
 
-  //  $form[''] = array(
-  //    '#type' => 'textfield',
-  //    '#title' => '',
-  //    '#description' => '',
-  //    '#default_value' => variable_get('', ''),
-  //  );
   return system_settings_form($form);
 }

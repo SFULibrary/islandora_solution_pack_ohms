@@ -25,9 +25,16 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
   protected $params;
 
   /**
-   * Constructor.
+   * Constructor
+   * 
+   * @param IslandoraTuque $connection
+   *   Connection object.
+   * @param string $path
+   *   Path to the object.
+   * @param array $params
+   *   Parameters for ingestion.
    */
-  public function __construct(IslandoraTuque , $path, $params) {
+  public function __construct(IslandoraTuque $connection, $path, array $params) {
     parent::__construct(NULL, $connection->repository);
     $this->filePath = $path;
     $this->params = $params;
@@ -35,6 +42,9 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Assemble the base datastreams.
+   * 
+   * @return int
+   *   One of the ISLANDORA_BATCH_STATE__* constants.
    */
   public function batchProcess() {
     // OBJ datastream.
@@ -88,6 +98,12 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     return array();
   }
 
+  /**
+   * Generate a MODS data stream for the object.
+   * 
+   * @return DataStream
+   *   The generated datastream, ready for ingest.
+   */
   private function getMods() {
     $pathinfo = pathinfo($this->filePath);
     $dir_name = $pathinfo['dirname'];
@@ -100,6 +116,12 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     return $mods;
   }
 
+  /**
+   * Generate a DC data stream for the object.
+   * 
+   * @return DataStream
+   *   The generated datastream, ready for ingest.
+   */
   private function getDc() {
     $pathinfo = pathinfo($this->filePath);
     $dir_name = $pathinfo['dirname'];
@@ -112,6 +134,12 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     return $mods;
   }
 
+  /**
+   * Generate a thumbnail data stream for the object.
+   * 
+   * @return DataStream|null
+   *   The generated datastream, ready for ingest or null if one wasn't found.
+   */
   private function getTn() {
     $pathinfo = pathinfo($this->filePath);
     $dir_name = $pathinfo['dirname'];

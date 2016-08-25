@@ -2,12 +2,20 @@
 
 /**
  * @file
+ * Batch Preprocessor implementation.
  */
+
 /**
- *
+ * Preprocessor for batch ingest of OHMS objects.
  */
 class IslandoraOhmsBatchPreprocessor extends IslandoraBatchPreprocessor {
 
+  /**
+   * Preprocess one object.
+   * 
+   * @return array
+   *   The preprocessed queue of objects.
+   */
   public function preprocess() {
     module_load_include('inc', 'islandora_ohms', 'includes/utilities');
 

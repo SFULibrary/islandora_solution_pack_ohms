@@ -9,7 +9,7 @@
 ?>
 <script type="text/javascript">
   var cachefile = "<?php echo $islandora_object->id ?>";
-  var searchUrl = "<?php echo $searchUrl; ?>";
+  var searchUrl = "<?php echo $search_url; ?>";
 </script>
 <div id='ohms_body'>
 	<?php print $islandora_content; ?>
