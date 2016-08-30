@@ -64,6 +64,11 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     if ($tn) {
       $this->ingestDatastream($tn);
     }
+	
+	$media = $this->getMedia();
+	if($media) {
+	  $this->ingestDatastream($media);
+	}
 
     $dom = new DOMDocument();
     $dom->loadXML($dc->content);
@@ -155,6 +160,26 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
       return $tn;
     }
     return NULL;
+  }
+  
+  private function getMedia() {
+    $pathinfo = pathinfo($this->filePath);
+    $dir_name = $pathinfo['dirname'];
+    $file_name = $pathinfo['filename'];
+    $basename = basename($file_name, '.xml');
+	
+	$media_extensions = array('mp3', 'mp4', 'avi');
+	foreach($media_extensions as $ext) {
+	  $path = "{$dir_name}/{$basename}.{$ext}";
+	  if(file_exists($path)) {
+		$media = $this->constructDatastream('MEDIA');
+		$media->setContentFromFile($path);
+		$media->mimetype = mime_content_type($path);
+		$media->label = 'Media file';
+		return $media;
+	  }
+	}
+	return null;
   }
 
 }

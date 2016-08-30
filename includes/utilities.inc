@@ -112,7 +112,7 @@ function islandora_ohms_apply_stylesheet($path, XSLTProcessor $xsl) {
  *   An iterator of file info objects.
  */
 function islandora_ohms_get_iterator($target, $recursive) {
-  $filter = function () {
+  $filter = function (SplFileInfo $item) {
     if ($item->getExtension() !== 'xml') {
       return FALSE;
     }

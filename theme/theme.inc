@@ -5,6 +5,13 @@
  * Theming functions for the OHMS Viewer.
  */
 
+function islandora_ohms_modify_content($content) {
+  $dom = new DOMDocument();
+  $dom->loadHTML($content);
+  
+  return $dom->saveHTML();
+}
+
 /**
  * Generate the HTML for the viewer.
  *
@@ -22,7 +29,7 @@ function islandora_ohms_build_viewer(array &$variables) {
   $controller->route(NULL, NULL, 'Allen Allens', 'minimal');
   $output = ob_get_clean();
 
-  $variables['islandora_content'] = $output;
+  $variables['islandora_content'] = islandora_ohms_modify_content($output);
 }
 
 /**
