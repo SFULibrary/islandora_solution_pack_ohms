@@ -7,7 +7,24 @@
 
 function islandora_ohms_modify_content($content) {
   $dom = new DOMDocument();
-  $dom->loadHTML($content);
+  $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content);
+  
+  $header = $dom->getElementById('header');
+  if($header) {
+    $header->setAttribute('id', 'ohms-header');
+  }
+  $headerVid = $dom->getElementById('headervid');
+  if($headerVid) {
+    $headerVid->setAttribute('id', 'ohms-headervid');
+  }
+  $headerImg = $dom->getElementById('headerimg');
+  if($headerImg) {
+    $headerImg->setAttribute('id', 'ohms-headerimg');
+  }
+  
+  $main = $dom->getElementById('main');
+  $main->setAttribute('id', 'ohms-main');
+  $main->setAttribute('class', 'center');
   
   return $dom->saveHTML();
 }
