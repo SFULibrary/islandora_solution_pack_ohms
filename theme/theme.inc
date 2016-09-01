@@ -12,10 +12,12 @@ function islandora_ohms_modify_content($content) {
   $header = $dom->getElementById('header');
   if($header) {
     $header->setAttribute('id', 'ohms-header');
+    $header->setAttribute('class', 'center');
   }
   $headerVid = $dom->getElementById('headervid');
   if($headerVid) {
     $headerVid->setAttribute('id', 'ohms-headervid');
+    $headerVid->setAttribute('class', 'center');
   }
   $headerImg = $dom->getElementById('headerimg');
   if($headerImg) {
