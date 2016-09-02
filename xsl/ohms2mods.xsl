@@ -34,7 +34,7 @@
 				<xsl:value-of select="duration"/>
 			</mods:extent>
 		</mods:physicalDescription>
-		<mods:abstract>
+		<mods:abstract type='description'>
 			<xsl:value-of select="description"/>
 		</mods:abstract>
 		<mods:subject>

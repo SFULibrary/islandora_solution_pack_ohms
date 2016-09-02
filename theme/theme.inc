@@ -114,7 +114,7 @@ function islandora_ohms_assets($player_name) {
 /**
  * Implements template_preprocess_hook().
  */
-function islandora_ohms_preprocess_islandora_ohms(array & $variables) {
+function islandora_ohms_preprocess_islandora_ohms_viewer(array & $variables) {
   $islandora_object = $variables['islandora_object'];
   module_load_include('inc', 'islandora', 'includes/datastream');
   module_load_include('inc', 'islandora', 'includes/utilities');
@@ -138,10 +138,25 @@ function islandora_ohms_preprocess_islandora_ohms(array & $variables) {
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($islandora_object);
   $variables['metadata'] = islandora_retrieve_metadata_markup($islandora_object);
   $variables['description'] = islandora_retrieve_description_markup($islandora_object);
-  $variables['search_url'] = url('islandora/ohms/search');
 
   islandora_ohms_build_viewer($variables);
   $player_name = islandora_ohms_player($islandora_object);
   $variables['playerName'] = $player_name;
   islandora_ohms_assets($player_name);
+}
+
+/**
+ * Implements template_preprocess_hook().
+ */
+function islandora_ohms_preprocess_islandora_ohms_metadata(array & $variables) {
+  $islandora_object = $variables['islandora_object'];
+  module_load_include('inc', 'islandora', 'includes/datastream');
+  module_load_include('inc', 'islandora', 'includes/utilities');
+  module_load_include('inc', 'islandora', 'includes/metadata');
+
+  $path = drupal_get_path('module', 'islandora_ohms');
+  drupal_add_css($path . '/css/ohms_metadata.css');
+  
+  $variables['islandora_object_label'] = $islandora_object->label;
+  $variables['parent_collections'] = islandora_get_parents_from_rels_ext($islandora_object);
 }

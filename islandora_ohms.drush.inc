@@ -5,6 +5,8 @@
  * Implementation of Drush hooks.
  */
 
+define('MODS_NS', 'http://www.loc.gov/mods/v3');
+
 /**
  * Implements hook_drush_command().
  */
@@ -129,6 +131,33 @@ function get_iterator($target, $recursive) {
   return $rex;
 }
 
+
+function get_bio(SplFileInfo $item) {
+    $file_name = $item->getBasename('.xml');
+    $bio_file_path = $item->getPath() . DIRECTORY_SEPARATOR . $file_name . '.BIO.txt';
+	if( ! file_exists($bio_file_path)) {
+	  return null;
+	}
+	$content = file_get_contents($bio_file_path);
+	$encoded = htmlspecialchars($content);
+	return $encoded;
+  }  
+  
+function get_names(SplFileInfo $item) {
+    $file_name = $item->getBasename('.xml');
+    $names_file_path = $item->getPath() . DIRECTORY_SEPARATOR . $file_name . '.NAMES.csv';
+	if( ! file_exists($names_file_path)) {
+	  return array();
+	}
+	$names = array();
+	$handle = fopen($names_file_path, 'r');
+	while(($row = fgetcsv($handle)) !== false) {
+	  $names[] = htmlspecialchars($row[0]);
+	}
+	sort($names);
+	return array_unique($names);
+}
+  
 /**
  * Generate a MODS file from an OHMS XML file.
  *
@@ -139,7 +168,7 @@ function get_iterator($target, $recursive) {
  * @param bool $force
  *   If true, overwrite an existing MODS file.
  */
-function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
+function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $bio) {
   $mods_path = preg_replace('/(?<!\.MODS)\.xml$/', '.MODS.xml', $item->getPathname());
   if (file_exists($mods_path) && !$force) {
     drupal_set_message("Skipping {$mods_path}.");
@@ -147,6 +176,29 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
   }
 
   $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
+  if($bio) {
+	$bio_node = $mods->createElementNS(MODS_NS, 'mods:abstract', $bio);
+	$bio_node->setAttribute('type', 'biography');
+	$mods->documentElement->appendChild($bio_node);
+  }
+  
+  foreach($names as $n) {
+	$subject = $mods->createElementNS(MODS_NS, 'mods:subject');
+	$name = $mods->createElementNS(MODS_NS, 'mods:name');
+	$name->setAttribute('type', 'personal');
+
+	$part = $mods->createElementNS(MODS_NS, 'mods:namePart', $n);
+	$name->appendChild($part);
+	$role = $mods->createElementNS(MODS_NS, 'mods:role');
+	$role_term = $mods->createElementNS(MODS_NS, 'mods:roleTerm', 'referenced');
+	$role->appendChild($role_term);
+	
+	$name->appendChild($role);	
+	
+	$subject->appendChild($name);
+	$mods->documentElement->appendChild($subject);
+  }
+  
   file_put_contents($mods_path, $mods->saveXML());
 }
 
@@ -157,10 +209,10 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force) {
  *   The iterator item.
  * @param XSLTProcessor $xsl
  *   The XSL to transform the XML.
- * @param bool $forceIf true, overwrite an existing MODS file.
+ * @param bool $force
  *   If true, overwrite an existing MODS file.
  */
-function generate_dc(SplFileInfo $item, XSLTProcessor $xsl, $force) {
+function generate_dc(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $bio) {
   $dc_path = preg_replace('/(?<!\.DC)\.xml$/', '.DC.xml', $item->getPathname());
   if (file_exists($dc_path) && !$force) {
     drupal_set_message("Skipping {$dc_path}.");
@@ -203,15 +255,18 @@ function drush_islandora_ohms_generate_metadata($target) {
   $dc_xsl = islandora_ohms_get_stylesheet($dc_xsl_path, array(
     'toc-separator' => $separator,
   ));
-
+  
   foreach ($iterator as $item) {
-    $name = $item->getFilename();
+    $name = $item->getFilename();	
     if ($name[0] === '.') {
       continue;
     }
+    $names = get_names($item);
+	$bio = get_bio($item);
+	
     drupal_set_message($item->getPathname());
-    generate_mods($item, $mods_xsl, $force);
-    generate_dc($item, $dc_xsl, $force);
+    generate_mods($item, $mods_xsl, $force, $names, $bio);
+    generate_dc($item, $dc_xsl, $force, $names, $bio);
   }
   return TRUE;
 }

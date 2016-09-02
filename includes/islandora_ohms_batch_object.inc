@@ -69,6 +69,11 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 	if($media) {
 	  $this->ingestDatastream($media);
 	}
+	
+	$tr = $this->getTranscript();
+	if($tr) {
+	  $this->ingestDatastream($tr);
+	}
 
     $dom = new DOMDocument();
     $dom->loadXML($dc->content);
@@ -87,7 +92,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     // Indicate that this object is ready to be ingested.
     return ISLANDORA_BATCH_STATE__DONE;
   }
-
+  
   /**
    * Add relationships.
    */
@@ -102,7 +107,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
   public function getResources() {
     return array();
   }
-
+  
   /**
    * Generate a MODS data stream for the object.
    *
@@ -153,13 +158,29 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     $tn_file_name = $dir_name . DIRECTORY_SEPARATOR . $basename . '.TN.jpg';
 
     if (file_exists($tn_file_name)) {
-      $tn = $this->constructDatastream('TN', 'M');
+      $tn = $this->constructDatastream('TN');
       $tn->setContentFromFile($tn_file_name);
       $tn->mimetype = 'image/jpeg';
       $tn->label = 'Thumbnail';
       return $tn;
     }
     return NULL;
+  }
+  
+  private function getTranscript() {
+	$pathinfo = pathinfo($this->filePath);
+	$dir_name = $pathinfo['dirname'];
+	$file_name = $pathinfo['filename'];
+	$basename = basename($file_name, '.xml');
+	$tr_file_name = $dir_name . DIRECTORY_SEPARATOR . $basename . '.TRANSCRIPT.pdf';
+	if(file_exists($tr_file_name)) {
+	  $tr = $this->constructDatastream('TRANSCRIPT');
+	  $tr->setContentFromFile($tr_file_name);
+	  $tr->mimetype = 'application/pdf';
+	  $tr->label = 'Transcript';
+	  return $tr;
+	}
+	return null;
   }
   
   private function getMedia() {

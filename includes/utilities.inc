@@ -10,6 +10,8 @@
  *
  * @param string $path
  *   Path to the XML document.
+ * @param bool $html
+ *   If true, then load the DOM as HTML instead of XML.
  *
  * @return \DOMDocument
  *   The parsed DOM document.
@@ -17,11 +19,17 @@
  * @throws Exception
  *   If libxml cannot read the xml file.
  */
-function islandora_ohms_get_dom($path) {
+function islandora_ohms_get_dom($path, $html = false) {
   $errors = libxml_use_internal_errors(TRUE);
 
   $dom = new DOMDocument();
-  if (!$dom->load($path)) {
+  $result = false;
+  if($html) {
+	$result = $dom->loadHTMLFile($path);
+  } else {
+	$result = $dom->load($path);
+  }
+  if ($result === false) {
     libxml_use_internal_errors($errors);
     throw islandora_ohms_xml_exception();
   }

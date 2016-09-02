@@ -5,6 +5,8 @@
  * Handles creation and display of OHMS objects.
  */
 
+define('MODS_NS', 'http://www.loc.gov/mods/v3');
+
 /**
  * Implements hook_menu().
  */
@@ -89,46 +91,29 @@ function islandora_ohms_transcript_access($object) {
 }
 
 function islandora_ohms_metadata_display($object) {
-  // extract the MODS metadata elements.
-  // display them.
-  // 
+  $dom = new DOMDocument();
+  $dom->loadXML($object['MODS']->content);
+  $xpc = new DOMXPath($dom);
+  $xpc->registerNamespace('mods', MODS_NS);
   
-  // Load the variables we need.
-  $dsid = variable_get('islandora_simple_description_dsid', 'DC');
-  $query = variable_get('islandora_simple_description_xpath', '//dc:description');
-  // Create a form array.
-  $output = array();
-  // Create the fieldset title for the array.
-  $output['title'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Description'),
-    '#collapsible' => FALSE,
-  );
-  // Load the object we want.
-  // NOT NECESSARY.
-  $object = islandora_object_load($object);
-  // Check if the object has the specified datastream.
-  if (isset($object[$dsid])) {
-    // If it does, load the datastream as XML.
-    $mods = simplexml_load_string($object[$dsid]->content);
-    // Do the Xpath query for the abstract.
-    $abstract = $mods->xpath($query);
-    // If we find something, stick it in the title fieldset as markup. If we
-    // don't, just display a message saying it wasn't there.
-    $output['title']['description'] = array(
-      '#markup' => isset($abstract[0]) ? (string) $abstract[0] : "No $dsid description metadata found for this object.",
-    );
+  $names = array();
+  foreach($xpc->evaluate("//mods:subject[mods:name[@type='personal']][.//mods:roleTerm/text() = 'referenced']//mods:namePart") as $node) {
+	$names[] = $node->nodeValue;
   }
-  // If there is no specified datastream, put that in the description instead.
-  else {
-    $output['title']['description'] = array(
-      '#markup' => "No $dsid metadata was found for this object.",
-    );
-  }
-  // Finally, return the form array to hook_menu.
-  return $output;
+  
+  
+  $tn = url('islandora/object/' . $object->id . '/datastream/TN/view');
+  $bio = $xpc->evaluate('//mods:abstract[@type="biography"]')->item(0);
+  $abstract = $xpc->evaluate('//mods:abstract[@type="description"]')->item(0);
+  
+  return theme('islandora_ohms_metadata', array(
+	'islandora_object' => $object,
+	'names' => $names,
+	'bio' => $bio,
+	'abstract' => $abstract,
+	'tn' => $tn,
+  ));
 }
-
 
 function islandora_ohms_transcript_display($object) {
   return theme('islandora_pdfjs', array(
@@ -179,7 +164,10 @@ function islandora_ohms_search() {
  * Implements hook_CMODEL_PID_islandora_view_object().
  */
 function islandora_ohms_islandora_sp_ohms_islandora_view_object($object) {
-  $output = theme('islandora_ohms', array('islandora_object' => $object));
+  $output = theme('islandora_ohms_viewer', array(
+	'islandora_object' => $object,
+	'search_url' => url('islandora/ohms/search'),
+  ));
   return $output;
 }
 
@@ -188,14 +176,24 @@ function islandora_ohms_islandora_sp_ohms_islandora_view_object($object) {
  */
 function islandora_ohms_theme($object, $type, $theme, $path) {
   return array(
-    'islandora_ohms' => array(
+    'islandora_ohms_viewer' => array(
       'file' => 'theme/theme.inc',
-      'template' => 'theme/islandora-ohms',
-      'pattern' => 'islandora_ohms__',
+      'template' => 'theme/islandora-ohms-viewer',
+      'pattern' => 'islandora_ohms_viewer__',
       'variables' => array(
         'islandora_object' => NULL,
+		'search_url' => '',
       ),
     ),
+	'islandora_ohms_metadata' => array(
+	  'file' => 'theme/theme.inc',
+	  'template' => 'theme/islandora-ohms-metadata',
+	  'pattern' => 'islandora_ohms_metadata__',
+	  'variables' => array(
+		'islandora_object' => null,
+		'description' => '',
+	  ),
+	)
   );
 }
 
