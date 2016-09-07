@@ -167,6 +167,12 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     return NULL;
   }
 
+  /**
+   * Generate a transcript data stream for the object.
+   * 
+   * @return DataStream|null
+   *   The generated datastream, ready for ingest or null if one wasn't found.
+   */
   private function getTranscript() {
     $pathinfo = pathinfo($this->filePath);
     $dir_name = $pathinfo['dirname'];
@@ -183,6 +189,12 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     return NULL;
   }
 
+  /**
+   * Generate a media data stream for the object.
+   * 
+   * @return DataStream|null
+   *   The generated datastream, ready for ingest or null if one wasn't found.
+   */
   private function getMedia() {
     $pathinfo = pathinfo($this->filePath);
     $dir_name = $pathinfo['dirname'];

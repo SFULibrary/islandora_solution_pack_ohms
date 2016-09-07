@@ -5,7 +5,7 @@
  * Handles creation and display of OHMS objects.
  */
 
-define('MODS_NS', 'http://www.loc.gov/mods/v3');
+define('ISLANDORA_OHMS_MODS_NS', 'http://www.loc.gov/mods/v3');
 
 /**
  * Implements hook_menu().
@@ -57,7 +57,16 @@ function islandora_ohms_menu() {
   );
 }
 
-function islandora_ohms_metadata_access($object) {
+/**
+ * Check if the metadata tab should be displayed for an OHMS transcript.
+ * 
+ * @param FedoraObject $object
+ *   The object being displayed.
+ * 
+ * @return bool
+ *   true if the metadata tab should be displayed.
+ */
+function islandora_ohms_metadata_access(FedoraObject $object) {
   module_load_include('inc', 'islandora', 'includes/utilities');
   $collections = islandora_get_parents_from_rels_ext($object);
   $in_tech_bc = FALSE;
@@ -72,16 +81,25 @@ function islandora_ohms_metadata_access($object) {
   return TRUE;
 }
 
-function islandora_ohms_transcript_access($object) {
+/**
+ * Check if the transcript tab should be displayed for an OHMS transcript.
+ * 
+ * @param FedoraObject $object
+ *   The object being displayed.
+ * 
+ * @return bool
+ *   true if the metadata tab should be displayed.
+ */
+function islandora_ohms_transcript_access(FedoraObject $object) {
   module_load_include('inc', 'islandora', 'includes/utilities');
   $collections = islandora_get_parents_from_rels_ext($object);
-  $inTechBc = FALSE;
+  $in_techbc = FALSE;
   foreach ($collections as $c) {
     if ($c->id === 'ohms:techbc') {
-      $inTechBc = TRUE;
+      $in_techbc = TRUE;
     }
   }
-  if (!$inTechBc) {
+  if (!$in_techbc) {
     return FALSE;
   }
   if ($object['TRANSCRIPT']) {
@@ -90,11 +108,20 @@ function islandora_ohms_transcript_access($object) {
   return FALSE;
 }
 
-function islandora_ohms_metadata_display($object) {
+/**
+ * Callback for the metadata tab.
+ * 
+ * @param FedoraObject $object
+ *   The object being displayed.
+ * 
+ * @return string
+ *   The themed output.
+ */
+function islandora_ohms_metadata_display(FedoraObject $object) {
   $dom = new DOMDocument();
   $dom->loadXML($object['MODS']->content);
   $xpc = new DOMXPath($dom);
-  $xpc->registerNamespace('mods', MODS_NS);
+  $xpc->registerNamespace('mods', ISLANDORA_OHMS_MODS_NS);
 
   $names = array();
   foreach ($xpc->evaluate("//mods:subject[mods:name[@type='personal']][.//mods:roleTerm/text() = 'referenced']//mods:namePart") as $node) {
@@ -114,13 +141,28 @@ function islandora_ohms_metadata_display($object) {
   ));
 }
 
-function islandora_ohms_transcript_display($object) {
+/**
+ * Callback for the transcript tab.
+ * 
+ * @param FedoraObject $object
+ *   The object being displayed.
+ * 
+ * @return string
+ *   The themed output.
+ */
+function islandora_ohms_transcript_display(FedoraObject $object) {
   return theme('islandora_pdfjs', array(
     'fedora_object' => $object,
     'dsid' => 'TRANSCRIPT',
   ));
 }
 
+/**
+ * Build an OHMS settings array and return it.
+ * 
+ * @return array
+ *   The OHMS settings for the collection.
+ */
 function islandora_ohms_settings() {
   return array(
     'tmpDir' => variable_get('islandora_ohms_viewer_link_xml', FALSE),
@@ -141,6 +183,9 @@ function islandora_ohms_settings() {
   );
 }
 
+/**
+ * Callback function for the OHMS transcript/index search form.
+ */
 function islandora_ohms_search() {
   drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
   $path = drupal_get_path('module', 'islandora_ohms');

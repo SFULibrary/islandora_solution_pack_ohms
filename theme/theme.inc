@@ -5,6 +5,15 @@
  * Theming functions for the OHMS Viewer.
  */
 
+/**
+ * Modify the content produced by OHMS to make it more compatible with Drupal.
+ * 
+ * @param string $content
+ *   Content returned from OHMS Viewer.
+ * 
+ * @return string
+ *   Modified content.
+ */
 function islandora_ohms_modify_content($content) {
   $dom = new DOMDocument();
   $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content);
@@ -14,14 +23,14 @@ function islandora_ohms_modify_content($content) {
     $header->setAttribute('id', 'ohms-header');
     $header->setAttribute('class', 'center');
   }
-  $headerVid = $dom->getElementById('headervid');
-  if ($headerVid) {
-    $headerVid->setAttribute('id', 'ohms-headervid');
-    $headerVid->setAttribute('class', 'center');
+  $header_vid = $dom->getElementById('headervid');
+  if ($header_vid) {
+    $header_vid->setAttribute('id', 'ohms-headervid');
+    $header_vid->setAttribute('class', 'center');
   }
-  $headerImg = $dom->getElementById('headerimg');
-  if ($headerImg) {
-    $headerImg->setAttribute('id', 'ohms-headerimg');
+  $header_img = $dom->getElementById('headerimg');
+  if ($header_img) {
+    $header_img->setAttribute('id', 'ohms-headerimg');
   }
 
   $main = $dom->getElementById('main');

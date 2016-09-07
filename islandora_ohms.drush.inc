@@ -5,8 +5,6 @@
  * Implementation of Drush hooks.
  */
 
-define('MODS_NS', 'http://www.loc.gov/mods/v3');
-
 /**
  * Implements hook_drush_command().
  */
@@ -131,7 +129,15 @@ function get_iterator($target, $recursive) {
   return $rex;
 }
 
-
+/**
+ * Get the interview subject's bio from a .BIO.txt file.
+ * 
+ * @param SplFileInfo $item
+ *   An SplFileInfo object for the OHMS XML file being imported.
+ * 
+ * @return string
+ *   The contents of the bio encoded for HTML.
+ */
 function get_bio(SplFileInfo $item) {
   $file_name = $item->getBasename('.xml');
   $bio_file_path = $item->getPath() . DIRECTORY_SEPARATOR . $file_name . '.BIO.txt';
@@ -143,6 +149,15 @@ function get_bio(SplFileInfo $item) {
   return $encoded;
 }
 
+/**
+ * Get the interview list of names mentioned from a .NAMES.csv file.
+ * 
+ * @param SplFileInfo $item
+ *   An SplFileInfo object for the OHMS XML file being imported.
+ * 
+ * @return string
+ *   The contents of the bio encoded for HTML.
+ */
 function get_names(SplFileInfo $item) {
   $file_name = $item->getBasename('.xml');
   $names_file_path = $item->getPath() . DIRECTORY_SEPARATOR . $file_name . '.NAMES.csv';
@@ -177,20 +192,20 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $b
 
   $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
   if ($bio) {
-    $bio_node = $mods->createElementNS(MODS_NS, 'mods:abstract', $bio);
+    $bio_node = $mods->createElementNS(ISLANDORA_OHMS_ISLANDORA_OHMS_MODS_NS, 'mods:abstract', $bio);
     $bio_node->setAttribute('type', 'biography');
     $mods->documentElement->appendChild($bio_node);
   }
 
   foreach ($names as $n) {
-    $subject = $mods->createElementNS(MODS_NS, 'mods:subject');
-    $name = $mods->createElementNS(MODS_NS, 'mods:name');
+    $subject = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:subject');
+    $name = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:name');
     $name->setAttribute('type', 'personal');
 
-    $part = $mods->createElementNS(MODS_NS, 'mods:namePart', $n);
+    $part = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:namePart', $n);
     $name->appendChild($part);
-    $role = $mods->createElementNS(MODS_NS, 'mods:role');
-    $role_term = $mods->createElementNS(MODS_NS, 'mods:roleTerm', 'referenced');
+    $role = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:role');
+    $role_term = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:roleTerm', 'referenced');
     $role->appendChild($role_term);
 
     $name->appendChild($role);
@@ -297,6 +312,14 @@ function drush_islandora_ohms_batch_preprocess($target) {
   return TRUE;
 }
 
+/**
+ * Download the media file for an interview
+ * 
+ * @param string $url
+ *   The URL to download.
+ * @param string $path
+ *   The file path to save the media file.
+ */
 function islandora_ohms_curl_download($url, $path) {
   $fh = fopen($path, 'wb');
   $ch = curl_init($url);
@@ -311,6 +334,14 @@ function islandora_ohms_curl_download($url, $path) {
   curl_close($ch);
 }
 
+/**
+ * Fetch a media file listed in the OHMS XML file and save to disk.
+ * 
+ * @param SplFileInfo $item
+ *   SplFileInfo for the item being processed.
+ * @param bool $force
+ *   If true, then download and save the media file even if it already exists.
+ */
 function islandora_ohms_fetch(SplFileInfo $item, $force) {
   drush_log($item->getPathname());
   try {
@@ -342,6 +373,12 @@ function islandora_ohms_fetch(SplFileInfo $item, $force) {
   islandora_ohms_curl_download($url, $filepath);
 }
 
+/**
+ * Callback function for iofm.
+ * 
+ * @param string $target
+ *   Target directory to process.
+ */
 function drush_islandora_ohms_fetch_media($target) {
   module_load_include('inc', 'islandora_ohms', 'includes/utilities');
   $recursive = drush_get_option('recursive', FALSE);
