@@ -8,26 +8,26 @@
 function islandora_ohms_modify_content($content) {
   $dom = new DOMDocument();
   $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content);
-  
+
   $header = $dom->getElementById('header');
-  if($header) {
+  if ($header) {
     $header->setAttribute('id', 'ohms-header');
     $header->setAttribute('class', 'center');
   }
   $headerVid = $dom->getElementById('headervid');
-  if($headerVid) {
+  if ($headerVid) {
     $headerVid->setAttribute('id', 'ohms-headervid');
     $headerVid->setAttribute('class', 'center');
   }
   $headerImg = $dom->getElementById('headerimg');
-  if($headerImg) {
+  if ($headerImg) {
     $headerImg->setAttribute('id', 'ohms-headerimg');
   }
-  
+
   $main = $dom->getElementById('main');
   $main->setAttribute('id', 'ohms-main');
   $main->setAttribute('class', 'center');
-  
+
   return $dom->saveHTML();
 }
 
@@ -156,7 +156,7 @@ function islandora_ohms_preprocess_islandora_ohms_metadata(array & $variables) {
 
   $path = drupal_get_path('module', 'islandora_ohms');
   drupal_add_css($path . '/css/ohms_metadata.css');
-  
+
   $variables['islandora_object_label'] = $islandora_object->label;
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($islandora_object);
 }

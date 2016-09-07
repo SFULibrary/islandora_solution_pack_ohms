@@ -19,17 +19,18 @@
  * @throws Exception
  *   If libxml cannot read the xml file.
  */
-function islandora_ohms_get_dom($path, $html = false) {
+function islandora_ohms_get_dom($path, $html = FALSE) {
   $errors = libxml_use_internal_errors(TRUE);
 
   $dom = new DOMDocument();
-  $result = false;
-  if($html) {
-	$result = $dom->loadHTMLFile($path);
-  } else {
-	$result = $dom->load($path);
+  $result = FALSE;
+  if ($html) {
+    $result = $dom->loadHTMLFile($path);
   }
-  if ($result === false) {
+  else {
+    $result = $dom->load($path);
+  }
+  if ($result === FALSE) {
     libxml_use_internal_errors($errors);
     throw islandora_ohms_xml_exception();
   }

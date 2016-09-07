@@ -1,13 +1,11 @@
 .islandora-ohms-metadata .referenced-people {
-    column-count: 3;
-    list-style: none;
+  column-count: 3;
+  list-style: none;
 }
 
 .islandora-ohms-metadata .tn {
-	float: right;
-	padding: 10px;
-	
-	max-width: 200px;
-	max-height: 200px;
+  float: right;
+  padding: 10px;
+  max-width: 200px;
+  max-height: 200px;
 }
-

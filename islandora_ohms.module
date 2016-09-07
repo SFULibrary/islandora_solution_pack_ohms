@@ -53,41 +53,41 @@ function islandora_ohms_menu() {
       'page arguments' => array(2),
       'access callback' => 'islandora_ohms_transcript_access',
       'access arguments' => array(2),
-    )
+    ),
   );
 }
 
 function islandora_ohms_metadata_access($object) {
   module_load_include('inc', 'islandora', 'includes/utilities');
   $collections = islandora_get_parents_from_rels_ext($object);
-  $inTechBc = false;
-  foreach($collections as $c) {
-    if($c->id === 'ohms:techbc') {
-      $inTechBc = true;
+  $in_tech_bc = FALSE;
+  foreach ($collections as $c) {
+    if ($c->id === 'ohms:techbc') {
+      $in_tech_bc = TRUE;
     }
   }
-  if(!$inTechBc) {
-    return false;
+  if (!$in_tech_bc) {
+    return FALSE;
   }
-  return true;
+  return TRUE;
 }
 
 function islandora_ohms_transcript_access($object) {
   module_load_include('inc', 'islandora', 'includes/utilities');
   $collections = islandora_get_parents_from_rels_ext($object);
-  $inTechBc = false;
-  foreach($collections as $c) {
-    if($c->id === 'ohms:techbc') {
-      $inTechBc = true;
+  $inTechBc = FALSE;
+  foreach ($collections as $c) {
+    if ($c->id === 'ohms:techbc') {
+      $inTechBc = TRUE;
     }
   }
-  if(!$inTechBc) {
-    return false;
+  if (!$inTechBc) {
+    return FALSE;
   }
-  if($object['TRANSCRIPT']) {
-    return true;
+  if ($object['TRANSCRIPT']) {
+    return TRUE;
   }
-  return false;
+  return FALSE;
 }
 
 function islandora_ohms_metadata_display($object) {
@@ -95,23 +95,22 @@ function islandora_ohms_metadata_display($object) {
   $dom->loadXML($object['MODS']->content);
   $xpc = new DOMXPath($dom);
   $xpc->registerNamespace('mods', MODS_NS);
-  
+
   $names = array();
-  foreach($xpc->evaluate("//mods:subject[mods:name[@type='personal']][.//mods:roleTerm/text() = 'referenced']//mods:namePart") as $node) {
-	$names[] = $node->nodeValue;
+  foreach ($xpc->evaluate("//mods:subject[mods:name[@type='personal']][.//mods:roleTerm/text() = 'referenced']//mods:namePart") as $node) {
+    $names[] = $node->nodeValue;
   }
-  
-  
+
   $tn = url('islandora/object/' . $object->id . '/datastream/TN/view');
   $bio = $xpc->evaluate('//mods:abstract[@type="biography"]')->item(0);
   $abstract = $xpc->evaluate('//mods:abstract[@type="description"]')->item(0);
-  
+
   return theme('islandora_ohms_metadata', array(
-	'islandora_object' => $object,
-	'names' => $names,
-	'bio' => $bio,
-	'abstract' => $abstract,
-	'tn' => $tn,
+  'islandora_object' => $object,
+  'names' => $names,
+  'bio' => $bio,
+  'abstract' => $abstract,
+  'tn' => $tn,
   ));
 }
 
@@ -165,8 +164,8 @@ function islandora_ohms_search() {
  */
 function islandora_ohms_islandora_sp_ohms_islandora_view_object($object) {
   $output = theme('islandora_ohms_viewer', array(
-	'islandora_object' => $object,
-	'search_url' => url('islandora/ohms/search'),
+  'islandora_object' => $object,
+  'search_url' => url('islandora/ohms/search'),
   ));
   return $output;
 }
@@ -182,25 +181,25 @@ function islandora_ohms_theme($object, $type, $theme, $path) {
       'pattern' => 'islandora_ohms_viewer__',
       'variables' => array(
         'islandora_object' => NULL,
-		'search_url' => '',
+        'search_url' => '',
       ),
     ),
-	'islandora_ohms_metadata' => array(
-	  'file' => 'theme/theme.inc',
-	  'template' => 'theme/islandora-ohms-metadata',
-	  'pattern' => 'islandora_ohms_metadata__',
-	  'variables' => array(
-		'islandora_object' => null,
-		'description' => '',
-	  ),
-	)
+    'islandora_ohms_metadata' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-ohms-metadata',
+      'pattern' => 'islandora_ohms_metadata__',
+      'variables' => array(
+        'islandora_object' => NULL,
+        'description' => '',
+      ),
+    ),
   );
 }
 
 /**
  * Implements hook_islandora_required_objects().
  */
-function islandora_ohms_islandora_required_objects(IslandoraTuque$connection) {
+function islandora_ohms_islandora_required_objects() {
   $module_path = drupal_get_path('module', 'islandora_ohms');
   // Islandora OHMS Content Model.
   $ohms_content_model = $connection->repository->constructObject('islandora:sp_ohms');
@@ -273,4 +272,3 @@ function islandora_ohms_islandora_xml_form_builder_form_associations() {
     ),
   );
 }
-

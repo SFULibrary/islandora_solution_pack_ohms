@@ -36,4 +36,3 @@ function islandora_ohms_uninstall() {
   variable_del('islandora_ohms_contactlink');
   variable_del('islandora_ohms_copyright');
 }
-
