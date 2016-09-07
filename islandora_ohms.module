@@ -59,10 +59,10 @@ function islandora_ohms_menu() {
 
 /**
  * Check if the metadata tab should be displayed for an OHMS transcript.
- * 
+ *
  * @param FedoraObject $object
  *   The object being displayed.
- * 
+ *
  * @return bool
  *   true if the metadata tab should be displayed.
  */
@@ -83,10 +83,10 @@ function islandora_ohms_metadata_access(FedoraObject $object) {
 
 /**
  * Check if the transcript tab should be displayed for an OHMS transcript.
- * 
+ *
  * @param FedoraObject $object
  *   The object being displayed.
- * 
+ *
  * @return bool
  *   true if the metadata tab should be displayed.
  */
@@ -110,10 +110,10 @@ function islandora_ohms_transcript_access(FedoraObject $object) {
 
 /**
  * Callback for the metadata tab.
- * 
+ *
  * @param FedoraObject $object
  *   The object being displayed.
- * 
+ *
  * @return string
  *   The themed output.
  */
@@ -143,10 +143,10 @@ function islandora_ohms_metadata_display(FedoraObject $object) {
 
 /**
  * Callback for the transcript tab.
- * 
+ *
  * @param FedoraObject $object
  *   The object being displayed.
- * 
+ *
  * @return string
  *   The themed output.
  */
@@ -159,7 +159,7 @@ function islandora_ohms_transcript_display(FedoraObject $object) {
 
 /**
  * Build an OHMS settings array and return it.
- * 
+ *
  * @return array
  *   The OHMS settings for the collection.
  */

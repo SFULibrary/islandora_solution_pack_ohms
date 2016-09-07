@@ -7,10 +7,10 @@
 
 /**
  * Modify the content produced by OHMS to make it more compatible with Drupal.
- * 
+ *
  * @param string $content
  *   Content returned from OHMS Viewer.
- * 
+ *
  * @return string
  *   Modified content.
  */

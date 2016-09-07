@@ -169,7 +169,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Generate a transcript data stream for the object.
-   * 
+   *
    * @return DataStream|null
    *   The generated datastream, ready for ingest or null if one wasn't found.
    */
@@ -191,7 +191,7 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
 
   /**
    * Generate a media data stream for the object.
-   * 
+   *
    * @return DataStream|null
    *   The generated datastream, ready for ingest or null if one wasn't found.
    */

@@ -131,10 +131,10 @@ function get_iterator($target, $recursive) {
 
 /**
  * Get the interview subject's bio from a .BIO.txt file.
- * 
+ *
  * @param SplFileInfo $item
  *   An SplFileInfo object for the OHMS XML file being imported.
- * 
+ *
  * @return string
  *   The contents of the bio encoded for HTML.
  */
@@ -151,10 +151,10 @@ function get_bio(SplFileInfo $item) {
 
 /**
  * Get the interview list of names mentioned from a .NAMES.csv file.
- * 
+ *
  * @param SplFileInfo $item
  *   An SplFileInfo object for the OHMS XML file being imported.
- * 
+ *
  * @return string
  *   The contents of the bio encoded for HTML.
  */
@@ -313,8 +313,8 @@ function drush_islandora_ohms_batch_preprocess($target) {
 }
 
 /**
- * Download the media file for an interview
- * 
+ * Download the media file for an interview.
+ *
  * @param string $url
  *   The URL to download.
  * @param string $path
@@ -336,7 +336,7 @@ function islandora_ohms_curl_download($url, $path) {
 
 /**
  * Fetch a media file listed in the OHMS XML file and save to disk.
- * 
+ *
  * @param SplFileInfo $item
  *   SplFileInfo for the item being processed.
  * @param bool $force
@@ -375,7 +375,7 @@ function islandora_ohms_fetch(SplFileInfo $item, $force) {
 
 /**
  * Callback function for iofm.
- * 
+ *
  * @param string $target
  *   Target directory to process.
  */
