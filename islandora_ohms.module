@@ -244,7 +244,7 @@ function islandora_ohms_theme($object, $type, $theme, $path) {
 /**
  * Implements hook_islandora_required_objects().
  */
-function islandora_ohms_islandora_required_objects() {
+function islandora_ohms_islandora_required_objects(IslandoraTuque $connection) {
   $module_path = drupal_get_path('module', 'islandora_ohms');
   // Islandora OHMS Content Model.
   $ohms_content_model = $connection->repository->constructObject('islandora:sp_ohms');
