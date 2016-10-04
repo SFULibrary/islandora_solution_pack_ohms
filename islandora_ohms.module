@@ -71,7 +71,7 @@ function islandora_ohms_metadata_access(FedoraObject $object) {
   $collections = islandora_get_parents_from_rels_ext($object);
   $in_tech_bc = FALSE;
   foreach ($collections as $c) {
-    if ($c->id === 'ohms:techbc') {
+    if ($c->id === 'techbc:collection') {
       $in_tech_bc = TRUE;
     }
   }
@@ -95,7 +95,7 @@ function islandora_ohms_transcript_access(FedoraObject $object) {
   $collections = islandora_get_parents_from_rels_ext($object);
   $in_techbc = FALSE;
   foreach ($collections as $c) {
-    if ($c->id === 'ohms:techbc') {
+    if ($c->id === 'techbc:collection') {
       $in_techbc = TRUE;
     }
   }

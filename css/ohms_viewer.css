@@ -448,7 +448,7 @@
 
 #ohms_body #search-results {
   overflow-y: auto;
-  height: 65%;
+  height: 400px;
 }
 
 #ohms_body #search-toggle,
@@ -514,6 +514,8 @@
 
 #ohms_body .transcript-line p {
   padding-left: 60px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 #ohms_body .transcript-line a.jumpLink {
