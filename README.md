@@ -122,6 +122,8 @@ Example:
 
 `drush --user=admin iobp --namespace=ohms --parent=ohms:collection /path/to/directory`
 
+`drush --user=admin ibi`
+
 ## Theming
 
 If the object includes a TRANSCRIPT datastream, then a Transcript tab

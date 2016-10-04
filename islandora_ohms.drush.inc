@@ -192,7 +192,7 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $b
 
   $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
   if ($bio) {
-    $bio_node = $mods->createElementNS(ISLANDORA_OHMS_ISLANDORA_OHMS_MODS_NS, 'mods:abstract', $bio);
+    $bio_node = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:abstract', $bio);
     $bio_node->setAttribute('type', 'biography');
     $mods->documentElement->appendChild($bio_node);
   }
