@@ -1,5 +1,5 @@
 #ohms_body a {
-  color: 10070b3;
+  color: #0070b3;
 }
 
 #ohms_body a.graylink {
@@ -59,11 +59,11 @@
 
 #ohms_body #transcript-panel a,
 #ohms_body #transcript-panel-alt a {
-  color: 1000000;
+  color: #000000;
 }
 
 #ohms_body .footnoteLink {
-  color: 10000ff !important;
+  color: #0000ff !important;
 }
 
 #ohms_body .speaker {
@@ -73,17 +73,17 @@
 
 #ohms_body #index-panel a,
 #ohms_body #index-panel-alt a {
-  color: 1000000;
+  color: #000000;
 }
 
 #ohms_body .jumpLink {
   font-size: 10px;
-  color: 10000ff;
+  color: #0000ff;
   text-decoration: none;
 }
 
 #ohms_body #searchbox-panel p {
-  padding-left: 2em;
+  padding-left: 1em;
 }
 
 #ohms_body #searchbox-panel.youtube {
@@ -358,7 +358,7 @@
 }
 
 #ohms_body .segmentLink {
-  border: 1000000 1px solid;
+  border: #000000 1px solid;
   padding: 5px;
   display: none;
 }
@@ -439,6 +439,7 @@
 #ohms_body #index-panel-alt {
   height: 548px;
   overflow: auto;
+  width: 98%;
 }
 
 #ohms_body #searchbox-panel {
@@ -465,7 +466,7 @@
 #ohms_body #transcript-panel .jumpLink,
 #ohms_body #transcript-panel-alt .jumpLink {
   font-size: 10px;
-  color: 10000ff;
+  color: #0000ff;
   text-decoration: none;
   font-weight: bold;
 }
@@ -481,49 +482,55 @@
 
 #ohms_body #content-panel {
   margin-top: 10px;
-  width: 66%;
+  width: 80%;
   outline: 1px solid lightgrey;
+  padding-right: 20px;
 }
 
 #ohms_body #searchbox-panel {
   position: absolute;
   top: 0;
   right: 0;
-  width: 33%;
+  width: 20%;
 }
 
-#ohms_body #search-toggle,
-#ohms_body #alert,
-#ohms_body #search-form,
-#ohms_body #search-results {
-  width: 60%;
-  margin: 0 auto;
+#search-toggle {
+    text-align: center;
 }
 
 #ohms_body #search-form input {
   width: 60%;
 }
 
-#ohms_body .transcript-line {
-  position: relative;
-}
-
-#ohms_body p .transcript-line {
-  position: inherit;
-}
-
-#ohms_body .transcript-line p {
-  padding-left: 60px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-#ohms_body .transcript-line a.jumpLink {
-  position: absolute;
-  left: 5px;
-  z-index: 1;
-}
-
 #ohms_body .segmentLinkTextBox {
   width: 97%;
+}
+
+#transcript-panel {
+  width:630px;
+  padding-left: 80px;
+  padding-right: 20px;
+  position:relative;
+}
+
+#transcript-panel .jumpLink {
+    position: absolute;
+    left: 40px;
+    font-size: 10px;
+    color: #0000ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#transcript-panel p.first-p {
+    margin-top: 0px;
+}
+
+#transcript-panel p {
+    margin: 0;
+    margin-top: 1em;    
+}
+
+.transcript-line {
+    
 }
