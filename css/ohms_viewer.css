@@ -515,7 +515,8 @@
 
 #transcript-panel .jumpLink {
     position: absolute;
-    left: 40px;
+    left: -40px;
+    top: 10px;
     font-size: 10px;
     color: #0000ff;
     text-decoration: none;
@@ -532,5 +533,5 @@
 }
 
 .transcript-line {
-    
+    position: relative;
 }
