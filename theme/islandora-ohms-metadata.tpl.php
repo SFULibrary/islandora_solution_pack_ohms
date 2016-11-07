@@ -11,13 +11,13 @@
 
 	<?php if ($bio !== NULL): ?>
 		<img class='tn' src="<?php echo $tn; ?>">
-		<h2>Before &amp; After</h2>
-  		<p><?php echo $bio->nodeValue; ?></p>
+		<h2>Then and Now</h2>
+  		<p><?php echo $bio; ?></p>
 	<?php endif; ?>
 
 	<?php if ($abstract !== NULL): ?>
   	<h2>Interview Description</h2>
-  	<p><?php echo $abstract->nodeValue; ?></p>
+  	<p><?php echo $abstract->nodeValue ?></p>
 	<?php endif; ?>
 
 	<h2>People Referenced</h2>

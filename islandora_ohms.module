@@ -71,7 +71,7 @@ function islandora_ohms_metadata_access(FedoraObject $object) {
   $collections = islandora_get_parents_from_rels_ext($object);
   $in_tech_bc = FALSE;
   foreach ($collections as $c) {
-    if ($c->id === 'techbc:collection') {
+    if ($c->id === 'ohms:techbc') {
       $in_tech_bc = TRUE;
     }
   }
@@ -95,7 +95,7 @@ function islandora_ohms_transcript_access(FedoraObject $object) {
   $collections = islandora_get_parents_from_rels_ext($object);
   $in_techbc = FALSE;
   foreach ($collections as $c) {
-    if ($c->id === 'techbc:collection') {
+    if ($c->id === 'ohms:techbc') {
       $in_techbc = TRUE;
     }
   }
@@ -124,20 +124,24 @@ function islandora_ohms_metadata_display(FedoraObject $object) {
   $xpc->registerNamespace('mods', ISLANDORA_OHMS_MODS_NS);
 
   $names = array();
-  foreach ($xpc->evaluate("//mods:subject[mods:name[@type='personal']][.//mods:roleTerm/text() = 'referenced']//mods:namePart") as $node) {
-    $names[] = $node->nodeValue;
+  if($object['NAMES']) {
+    $names = str_getcsv($object['NAMES']->content, "\n");
   }
 
   $tn = url('islandora/object/' . $object->id . '/datastream/TN/view');
-  $bio = $xpc->evaluate('//mods:abstract[@type="biography"]')->item(0);
+  if($object['BIO']) {
+    $bio = $object['BIO']->content;
+  } else {
+    $bio = null;
+  }
   $abstract = $xpc->evaluate('//mods:abstract[@type="description"]')->item(0);
 
   return theme('islandora_ohms_metadata', array(
-  'islandora_object' => $object,
-  'names' => $names,
-  'bio' => $bio,
-  'abstract' => $abstract,
-  'tn' => $tn,
+    'islandora_object' => $object,
+    'names' => $names,
+    'bio' => $bio,
+    'abstract' => $abstract,
+    'tn' => $tn,
   ));
 }
 
@@ -314,6 +318,23 @@ function islandora_ohms_islandora_xml_form_builder_form_associations() {
       'transform' => 'mods_to_dc.xsl',
       'self_transform' => 'cleanup_mods.xsl',
       'template' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_CMODEL_PID_islandora_derivative().
+ */
+function islandora_ohms_islandora_sp_ohms_islandora_derivative() {
+  return array(
+    array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => 'MODS',
+      'weight' => '0',
+      'function' => array(
+        'islandora_ohms_create_mods',
+      ),
+      'file' => drupal_get_path('module', 'islandora_ohms') . '/includes/islandora_ohms_derivatives.inc',
     ),
   );
 }

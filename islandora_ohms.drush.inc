@@ -190,7 +190,8 @@ function generate_mods(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $b
     return;
   }
 
-  $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
+  $string = file_get_contents($item->getRealPath());
+  $mods = islandora_ohms_apply_stylesheet($string, $xsl);
   if ($bio) {
     $bio_node = $mods->createElementNS(ISLANDORA_OHMS_MODS_NS, 'mods:abstract', $bio);
     $bio_node->setAttribute('type', 'biography');
@@ -234,7 +235,8 @@ function generate_dc(SplFileInfo $item, XSLTProcessor $xsl, $force, $names, $bio
     return;
   }
 
-  $mods = islandora_ohms_apply_stylesheet($item->getPathname(), $xsl);
+  $string = file_get_contents($item->getRealPath());
+  $mods = islandora_ohms_apply_stylesheet($string, $xsl);
   file_put_contents($dc_path, $mods->saveXML());
 }
 
@@ -345,7 +347,8 @@ function islandora_ohms_curl_download($url, $path) {
 function islandora_ohms_fetch(SplFileInfo $item, $force) {
   drush_log($item->getPathname());
   try {
-    $dom = islandora_ohms_get_dom($item->getPathname());
+    $string = file_get_contents($item->getPathname());
+    $dom = islandora_ohms_get_dom($string);
   }
   catch (Exception $e) {
     drush_log($item->getFilename() . $e->getMessage(), 'error');

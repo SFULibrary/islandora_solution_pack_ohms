@@ -7,4 +7,5 @@ version = 7.x-1.6
 configure = admin/islandora/solution_pack_config/ohms
 files[] = includes/islandora_ohms_batch_preprocessor.inc
 files[] = includes/islandora_ohms_batch_object.inc
+files[] = includes/islandora_ohms_derivatives.inc
 files[] = includes/utilities.inc

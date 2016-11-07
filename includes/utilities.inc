@@ -8,8 +8,8 @@
 /**
  * Load a DOM document from a file on disk.
  *
- * @param string $path
- *   Path to the XML document.
+ * @param string $string
+ *   String containing the XML document.
  * @param bool $html
  *   If true, then load the DOM as HTML instead of XML.
  *
@@ -19,16 +19,16 @@
  * @throws Exception
  *   If libxml cannot read the xml file.
  */
-function islandora_ohms_get_dom($path, $html = FALSE) {
+function islandora_ohms_get_dom($string, $html = FALSE) {
   $errors = libxml_use_internal_errors(TRUE);
 
   $dom = new DOMDocument();
   $result = FALSE;
   if ($html) {
-    $result = $dom->loadHTMLFile($path);
+    $result = $dom->loadHTML($string);
   }
   else {
-    $result = $dom->load($path);
+    $result = $dom->loadXML($string);
   }
   if ($result === FALSE) {
     libxml_use_internal_errors($errors);
@@ -69,7 +69,8 @@ function islandora_ohms_xml_exception() {
  */
 function islandora_ohms_get_stylesheet($path, $opts = array()) {
   $errors = libxml_use_internal_errors(TRUE);
-  $dom = islandora_ohms_get_dom($path);
+  $string = file_get_contents($path);
+  $dom = islandora_ohms_get_dom($string);
   $xsl = new XSLTProcessor();
   $result = $xsl->importStylesheet($dom);
   if ($result === FALSE) {
@@ -86,8 +87,8 @@ function islandora_ohms_get_stylesheet($path, $opts = array()) {
 /**
  * Apply an XSL to an XML File.
  *
- * @param string $path
- *   Path to the xml file on disk.
+ * @param string $string
+ *   String containing the XML to transform.
  * @param XSLTProcessor $xsl
  *   The parsed stylesheet to run.
  *
@@ -97,9 +98,9 @@ function islandora_ohms_get_stylesheet($path, $opts = array()) {
  * @throws Exception
  *   For any libxml error.
  */
-function islandora_ohms_apply_stylesheet($path, XSLTProcessor $xsl) {
+function islandora_ohms_apply_stylesheet($string, XSLTProcessor $xsl) {
   $errors = libxml_use_internal_errors(TRUE);
-  $dom = islandora_ohms_get_dom($path);
+  $dom = islandora_ohms_get_dom($string);
   $result = $xsl->transformToDoc($dom);
   if ($result === FALSE) {
     libxml_use_internal_errors($errors);

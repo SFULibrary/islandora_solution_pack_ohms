@@ -14,7 +14,7 @@
  * @return string
  *   Modified content.
  */
-function islandora_ohms_modify_content($content) {
+function islandora_ohms_modify_content($content, $object) {
   $dom = new DOMDocument();
   $dom->loadHTML('<?xml encoding="utf-8" ?>' . $content);
 
@@ -32,6 +32,9 @@ function islandora_ohms_modify_content($content) {
   if ($header_img) {
     $header_img->setAttribute('id', 'ohms-headerimg');
   }
+  
+  $link = $dom->getElementById('subjectPlayer');
+  $link->setAttribute('href', url('islandora/object/' . $object->id . '/datastream/MEDIA/view.mp3', ['absolute' => true]));
 
   $main = $dom->getElementById('main');
   $main->setAttribute('id', 'ohms-main');
@@ -57,7 +60,7 @@ function islandora_ohms_build_viewer(array &$variables) {
   $controller->route(NULL, NULL, 'Allen Allens', 'minimal');
   $output = ob_get_clean();
 
-  $variables['islandora_content'] = islandora_ohms_modify_content($output);
+  $variables['islandora_content'] = islandora_ohms_modify_content($output, $islandora_object);
 }
 
 /**

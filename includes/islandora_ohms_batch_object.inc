@@ -54,12 +54,6 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     $obj->setContentFromFile($this->filePath);
     $this->ingestDatastream($obj);
 
-    $mods = $this->getMods();
-    $this->ingestDatastream($mods);
-
-    $dc = $this->getDc();
-    $this->ingestDatastream($dc);
-
     $tn = $this->getTn();
     if ($tn) {
       $this->ingestDatastream($tn);
@@ -74,12 +68,21 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
     if ($tr) {
       $this->ingestDatastream($tr);
     }
+    
+    $bio = $this->getBio();
+    if($bio) {
+      $this->ingestDatastream($bio);
+    }
+    
+    $names = $this->getNames();
+    if($names) {
+      $this->ingestDatastream($names);
+    }
 
     $dom = new DOMDocument();
-    $dom->loadXML($dc->content);
+    $dom->load($this->filePath);
     $xpath = new DOMXPath($dom);
-    $xpath->registerNamespace('dc', 'http://purl.org/dc/elements/1.1/');
-    $titles = $xpath->query("//dc:title");
+    $titles = $xpath->query("/ROOT/record/title");
     if ($titles->length > 0) {
       $this->label = $titles->item(0)->nodeValue;
     }
@@ -106,42 +109,6 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
    */
   public function getResources() {
     return array();
-  }
-
-  /**
-   * Generate a MODS data stream for the object.
-   *
-   * @return DataStream
-   *   The generated datastream, ready for ingest.
-   */
-  private function getMods() {
-    $pathinfo = pathinfo($this->filePath);
-    $dir_name = $pathinfo['dirname'];
-    $file_name = $pathinfo['filename'];
-    $mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.MODS.xml';
-    $mods = $this->constructDatastream('MODS', 'M');
-    $mods->setContentFromFile($mods_file_path);
-    $mods->mimetype = 'application/xml';
-    $mods->label = 'MODS metadata';
-    return $mods;
-  }
-
-  /**
-   * Generate a DC data stream for the object.
-   *
-   * @return DataStream
-   *   The generated datastream, ready for ingest.
-   */
-  private function getDc() {
-    $pathinfo = pathinfo($this->filePath);
-    $dir_name = $pathinfo['dirname'];
-    $file_name = $pathinfo['filename'];
-    $mods_file_path = $dir_name . DIRECTORY_SEPARATOR . $file_name . '.DC.xml';
-    $mods = $this->constructDatastream('DC', 'M');
-    $mods->setContentFromFile($mods_file_path);
-    $mods->mimetype = 'application/xml';
-    $mods->label = 'MODS metadata';
-    return $mods;
   }
 
   /**
@@ -184,6 +151,50 @@ class IslandoraOhmsBatchObject extends IslandoraBatchObject {
       $tr->setContentFromFile($tr_file_name);
       $tr->mimetype = 'application/pdf';
       $tr->label = 'Transcript';
+      return $tr;
+    }
+    return NULL;
+  }
+
+  /**
+   * Generate a transcript data stream for the object.
+   *
+   * @return DataStream|null
+   *   The generated datastream, ready for ingest or null if one wasn't found.
+   */
+  private function getBio() {
+    $pathinfo = pathinfo($this->filePath);
+    $dir_name = $pathinfo['dirname'];
+    $file_name = $pathinfo['filename'];
+    $basename = basename($file_name, '.xml');
+    $tr_file_name = $dir_name . DIRECTORY_SEPARATOR . $basename . '.BIO.txt';
+    if (file_exists($tr_file_name)) {
+      $tr = $this->constructDatastream('BIO');
+      $tr->setContentFromFile($tr_file_name);
+      $tr->mimetype = 'text/plain';
+      $tr->label = 'Biography';
+      return $tr;
+    }
+    return NULL;
+  }
+
+  /**
+   * Generate a transcript data stream for the object.
+   *
+   * @return DataStream|null
+   *   The generated datastream, ready for ingest or null if one wasn't found.
+   */
+  private function getNames() {
+    $pathinfo = pathinfo($this->filePath);
+    $dir_name = $pathinfo['dirname'];
+    $file_name = $pathinfo['filename'];
+    $basename = basename($file_name, '.xml');
+    $tr_file_name = $dir_name . DIRECTORY_SEPARATOR . $basename . '.NAMES.csv';
+    if (file_exists($tr_file_name)) {
+      $tr = $this->constructDatastream('NAMES');
+      $tr->setContentFromFile($tr_file_name);
+      $tr->mimetype = 'text/plain';
+      $tr->label = 'Names Referenced';
       return $tr;
     }
     return NULL;
