@@ -53,7 +53,6 @@
 
 
 #ohms_body .speaker {
-  font-weight: bold;
   display: inline;
 }
 
@@ -67,7 +66,6 @@
 }
 
 #ohms_body .speaker {
-  font-weight: bold;
   display: inline;
 }
 
@@ -465,10 +463,8 @@
 
 #ohms_body #transcript-panel .jumpLink,
 #ohms_body #transcript-panel-alt .jumpLink {
-  font-size: 10px;
   color: #0000ff;
   text-decoration: none;
-  font-weight: bold;
 }
 
 /*
@@ -516,11 +512,9 @@
 #transcript-panel .jumpLink {
     position: absolute;
     left: -40px;
-    top: 17px;
-    font-size: 10px;
+    font-size: 12px;
     color: #0000ff;
     text-decoration: none;
-    font-weight: bold;
 }
 
 #transcript-panel p.first-p {
@@ -529,9 +523,10 @@
 
 #transcript-panel p {
     margin: 0 !important;
-    margin-top: 1em !important;    
+    margin-top: 1em !important;
 }
 
 .transcript-line {
     position: relative;
+    display: block;
 }
